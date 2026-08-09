@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import Link from "next/link";
 import { ButtonEl } from "@/components/ui/button";
 
 type Status = "idle" | "loading" | "success" | "error";
@@ -103,9 +104,13 @@ export function ContactForm() {
         />
         <span>
           Az{" "}
-          <a href="#" className="text-accent underline underline-offset-2">
+          <Link
+            href="/adatkezelesi-tajekoztato"
+            target="_blank"
+            className="text-accent underline underline-offset-2"
+          >
             adatkezelési tájékoztatót
-          </a>{" "}
+          </Link>{" "}
           elfogadom.
         </span>
       </label>

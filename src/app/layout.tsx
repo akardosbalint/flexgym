@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Oswald, Anton, Inter } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
+import { CookieBanner } from "@/components/cookie-banner";
 import "./globals.css";
 
 const displayFont = Anton({
@@ -34,6 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <body className="min-h-full bg-background text-foreground antialiased">
         <SessionProvider>{children}</SessionProvider>
+        <CookieBanner />
       </body>
     </html>
   );

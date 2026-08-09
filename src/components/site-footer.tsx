@@ -69,7 +69,15 @@ export function SiteFooter() {
             <Logo tone="dark" className="scale-90" />
             <span>© {new Date().getFullYear()} Minden jog fenntartva.</span>
           </div>
-          <span>Belépés és bérletkezelés: GPass</span>
+          <div className="flex items-center gap-4">
+            <Link href="/adatkezelesi-tajekoztato" className="hover:text-accent">
+              Adatkezelési tájékoztató
+            </Link>
+            <Link href="/aszf" className="hover:text-accent">
+              ÁSZF
+            </Link>
+            <span>Belépés és bérletkezelés: GPass</span>
+          </div>
         </Container>
       </div>
     </footer>

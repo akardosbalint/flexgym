@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { ButtonEl } from "@/components/ui/button";
 
@@ -92,6 +93,18 @@ export function RegisterForm() {
       </div>
 
       {error && <p className="text-sm text-accent">{error}</p>}
+
+      <p className="text-xs text-muted-light">
+        A regisztrációval elfogadod az{" "}
+        <Link
+          href="/adatkezelesi-tajekoztato"
+          target="_blank"
+          className="text-accent underline underline-offset-2"
+        >
+          adatkezelési tájékoztatót
+        </Link>
+        .
+      </p>
 
       <ButtonEl type="submit" variant="primary" disabled={loading} className="w-full">
         {loading ? "Regisztráció..." : "Regisztráció"}

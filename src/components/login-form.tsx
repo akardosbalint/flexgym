@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { ButtonEl } from "@/components/ui/button";
 
@@ -54,9 +55,14 @@ export function LoginForm() {
       </div>
 
       <div>
-        <label htmlFor="password" className="text-sm font-medium text-paper-fg">
-          Jelszó
-        </label>
+        <div className="flex items-baseline justify-between">
+          <label htmlFor="password" className="text-sm font-medium text-paper-fg">
+            Jelszó
+          </label>
+          <Link href="/elfelejtett-jelszo" className="text-xs text-accent hover:underline">
+            Elfelejtetted?
+          </Link>
+        </div>
         <input
           id="password"
           name="password"
