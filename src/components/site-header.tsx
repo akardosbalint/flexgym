@@ -13,7 +13,8 @@ import { NAV_LINKS, CONTACT } from "@/lib/site-data";
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
-  const { status } = useSession();
+  const { data: session, status } = useSession();
+  const isStaff = session?.user?.role === "STAFF";
 
   return (
     <header className="sticky top-0 z-50 border-b border-ink-border bg-ink">
@@ -51,8 +52,8 @@ export function SiteHeader() {
         <div className="hidden items-center gap-3 lg:flex">
           {status === "authenticated" ? (
             <>
-              <Button href="/dashboard" variant="outline-light" size="md">
-                Dashboard
+              <Button href={isStaff ? "/admin" : "/dashboard"} variant="outline-light" size="md">
+                {isStaff ? "Admin" : "Dashboard"}
               </Button>
               <ButtonSignOut />
             </>
@@ -116,8 +117,12 @@ export function SiteHeader() {
             <div className="mt-3 flex flex-col gap-2 border-t border-ink-border pt-3">
               {status === "authenticated" ? (
                 <>
-                  <Button href="/dashboard" variant="outline-light" onClick={() => setOpen(false)}>
-                    Dashboard
+                  <Button
+                    href={isStaff ? "/admin" : "/dashboard"}
+                    variant="outline-light"
+                    onClick={() => setOpen(false)}
+                  >
+                    {isStaff ? "Admin" : "Dashboard"}
                   </Button>
                   <ButtonSignOut />
                 </>

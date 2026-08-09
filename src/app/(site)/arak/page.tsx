@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ContentCard } from "@/components/ui/content-card";
 import { PRICING, FREE_PERKS } from "@/lib/site-data";
 
-export const metadata: Metadata = { title: "Árak | Flex Gym" };
+export const metadata: Metadata = { title: "Árak | Forge Gym" };
 
 function formatHuf(value: number) {
   return `${value.toLocaleString("hu-HU")} Ft`;
@@ -49,7 +49,7 @@ export default function PricingPage() {
         eyebrow="Bérletek"
         title="ÁRAK"
         highlight="AK"
-        description="Válaszd ki a hozzád illő bérletet — a vásárlás és a beléptetés a GPass rendszerén keresztül zajlik, a felhasználásod pedig a saját dashboardodon követhető."
+        description="Válaszd ki a hozzád illő bérletet — a vásárlás bankkártyával, a beléptetés a saját QR-kódos rendszerünkkel zajlik, a felhasználásod pedig a saját dashboardodon követhető."
       />
 
       <div className="bg-ink py-16">

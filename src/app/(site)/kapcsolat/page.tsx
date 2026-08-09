@@ -5,7 +5,7 @@ import { ContentCard } from "@/components/ui/content-card";
 import { ContactForm } from "@/components/contact-form";
 import { CONTACT, OPENING_HOURS } from "@/lib/site-data";
 
-export const metadata: Metadata = { title: "Kapcsolat | Flex Gym" };
+export const metadata: Metadata = { title: "Kapcsolat | Forge Gym" };
 
 export default function ContactPage() {
   return (
@@ -55,8 +55,8 @@ export default function ContactPage() {
 
                 <div className="mt-8 aspect-video overflow-hidden rounded-lg border border-paper-border">
                   <iframe
-                    title="Flex Gym térkép"
-                    src="https://www.google.com/maps?q=Budapest%2C%20M%C3%A1rv%C3%A1ny%20u.%2017%2C%201012&output=embed"
+                    title="Forge Gym térkép"
+                    src="https://www.google.com/maps?q=Budapest%2C%20V%C3%A1ci%20%C3%BAt%2047%2C%201134&output=embed"
                     className="h-full w-full"
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"

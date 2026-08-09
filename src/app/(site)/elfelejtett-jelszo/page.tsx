@@ -4,7 +4,7 @@ import { Container } from "@/components/ui/container";
 import { ContentCard } from "@/components/ui/content-card";
 import { ForgotPasswordForm } from "@/components/forgot-password-form";
 
-export const metadata: Metadata = { title: "Elfelejtett jelszó | Flex Gym" };
+export const metadata: Metadata = { title: "Elfelejtett jelszó | Forge Gym" };
 
 export default function ForgotPasswordPage() {
   return (

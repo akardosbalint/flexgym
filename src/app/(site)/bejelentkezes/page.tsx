@@ -5,7 +5,7 @@ import { Container } from "@/components/ui/container";
 import { ContentCard } from "@/components/ui/content-card";
 import { LoginForm } from "@/components/login-form";
 
-export const metadata: Metadata = { title: "Bejelentkezés | Flex Gym" };
+export const metadata: Metadata = { title: "Bejelentkezés | Forge Gym" };
 
 export default function LoginPage() {
   return (
@@ -30,9 +30,15 @@ export default function LoginPage() {
             </Link>
           </p>
 
-          <div className="mt-6 rounded-md bg-paper-2 p-4 text-xs text-muted-light">
-            <p className="font-semibold text-paper-fg">Demo belépés</p>
-            <p className="mt-1">demo@flexgym.hu / flexgym123</p>
+          <div className="mt-6 space-y-3 rounded-md bg-paper-2 p-4 text-xs text-muted-light">
+            <div>
+              <p className="font-semibold text-paper-fg">Demo tag belépés</p>
+              <p className="mt-1">demo@forgegym.hu / forgegym123</p>
+            </div>
+            <div className="border-t border-paper-border pt-3">
+              <p className="font-semibold text-paper-fg">Demo staff belépés (admin / beléptetés)</p>
+              <p className="mt-1">staff@forgegym.hu / forgegym123</p>
+            </div>
           </div>
         </ContentCard>
       </Container>

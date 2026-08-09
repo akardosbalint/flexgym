@@ -4,7 +4,7 @@ import { Container } from "@/components/ui/container";
 import { ContentCard } from "@/components/ui/content-card";
 import { CONTACT } from "@/lib/site-data";
 
-export const metadata: Metadata = { title: "ÁSZF | Flex Gym" };
+export const metadata: Metadata = { title: "ÁSZF | Forge Gym" };
 
 export default function TermsPage() {
   return (
@@ -17,7 +17,7 @@ export default function TermsPage() {
             <div className="mb-8 rounded-md border border-accent/30 bg-accent/10 p-4 text-sm text-paper-fg">
               <strong>Minta szöveg.</strong> Ez az Általános Szerződési
               Feltételek oldal egy általános sablon — élesítés előtt jogi
-              szakértővel szükséges véleményeztetni és a Flex Gym tényleges
+              szakértővel szükséges véleményeztetni és a Forge Gym tényleges
               szolgáltatásaihoz, díjaihoz és házirendjéhez igazítani.
             </div>
 
@@ -28,18 +28,19 @@ export default function TermsPage() {
 
             <Section title="1. Szolgáltató adatai">
               <p>
-                Flex Gym, {CONTACT.address}. Elérhetőség: {CONTACT.email},{" "}
+                Forge Gym, {CONTACT.address}. Elérhetőség: {CONTACT.email},{" "}
                 {CONTACT.phone}.
               </p>
             </Section>
 
             <Section title="2. A szolgáltatás tárgya">
               <p>
-                A Flex Gym edzőtermi szolgáltatásokat (terembérlet,
+                A Forge Gym edzőtermi szolgáltatásokat (terembérlet,
                 alkalmi belépő, edzői/csoportos órák) nyújt, az „Árak”
                 oldalon feltüntetett díjazás szerint. A bérletek
-                aktiválása, a beléptetés és a felhasználás nyilvántartása a
-                GPass rendszerén keresztül történik.
+                aktiválása bankkártyás fizetéssel, a beléptetés a
+                Weboldalon generált, személyes QR-kóddal, a helyszínen
+                történő beolvasás útján zajlik.
               </p>
             </Section>
 
@@ -55,7 +56,7 @@ export default function TermsPage() {
             <Section title="4. Vásárlás és fizetés">
               <p>
                 A bérlet online vagy helyszíni megvásárlásával a felhasználó
-                és a Flex Gym között szerződés jön létre. A fizetés a
+                és a Forge Gym között szerződés jön létre. A fizetés a
                 Weboldalon feltüntetett módokon (pl. bankkártya) történik;
                 Szép Kártyával jelenleg nem lehet fizetni.
               </p>
@@ -65,7 +66,7 @@ export default function TermsPage() {
               <p>
                 A bérlet lemondásának, módosításának, illetve a felhasználó
                 elállási jogának feltételeit a hatályos fogyasztóvédelmi
-                jogszabályok, valamint a Flex Gym mindenkori házirendje
+                jogszabályok, valamint a Forge Gym mindenkori házirendje
                 szabályozza.
               </p>
             </Section>
@@ -81,17 +82,18 @@ export default function TermsPage() {
 
             <Section title="7. Felelősség korlátozása">
               <p>
-                A Flex Gym a tőle elvárható gondossággal üzemelteti a
-                Weboldalt és a tagsági dashboardot, de nem vállal
-                felelősséget a GPass rendszerében esetlegesen felmerülő
-                hibákért vagy adatszinkronizációs késésekért.
+                A Forge Gym a tőle elvárható gondossággal üzemelteti a
+                Weboldalt, a tagsági dashboardot, a QR-kódos beléptető
+                rendszert és a fizetési szolgáltató (bankkártyás
+                fizetés) integrációját, de nem vállal felelősséget az
+                ezekben esetlegesen felmerülő technikai hibákért.
               </p>
             </Section>
 
             <Section title="8. Panaszkezelés, vitarendezés">
               <p>
                 Panasz esetén a felhasználó a {CONTACT.email} címen
-                fordulhat a Flex Gymhez. A felek közötti jogvita esetén a
+                fordulhat a Forge Gymhez. A felek közötti jogvita esetén a
                 hatályos magyar jogszabályok az irányadók.
               </p>
             </Section>

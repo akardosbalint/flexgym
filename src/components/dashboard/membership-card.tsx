@@ -19,8 +19,8 @@ export function MembershipCard({ membership }: { membership: Membership | null }
           Jelenleg nincs aktív bérleted
         </h2>
         <p className="mt-2 max-w-md text-sm text-muted-light">
-          Válassz bérletet, és a beléptetést a GPass rendszerén keresztül
-          azonnal használhatod is a teremben.
+          Válassz bérletet, és a QR-kódos belépőkódodat azonnal
+          használhatod is a teremben.
         </p>
         <Link
           href="/dashboard/berlet"

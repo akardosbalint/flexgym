@@ -4,7 +4,7 @@ import { Container } from "@/components/ui/container";
 import { ContentCard } from "@/components/ui/content-card";
 import { RegisterForm } from "@/components/register-form";
 
-export const metadata: Metadata = { title: "Regisztráció | Flex Gym" };
+export const metadata: Metadata = { title: "Regisztráció | Forge Gym" };
 
 export default function RegisterPage() {
   return (

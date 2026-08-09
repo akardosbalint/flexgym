@@ -16,10 +16,16 @@ export const OPENING_HOURS = [
   { day: "Vasárnap", hours: "08:00 – 20:00" },
 ];
 
+export const BRAND = {
+  name: "Forge Gym",
+  short: "Forge",
+  tagline: "Ahol az erő formát ölt.",
+};
+
 export const CONTACT = {
-  address: "1012 Budapest, Márvány utca 17.",
-  phone: "+36 1 202 0070",
-  email: "info@flexgym.hu",
+  address: "1134 Budapest, Váci út 47.",
+  phone: "+36 1 789 4521",
+  email: "info@forgegym.hu",
 };
 
 export const PRICING = [

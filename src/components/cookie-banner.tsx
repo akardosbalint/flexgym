@@ -4,8 +4,8 @@ import { useSyncExternalStore } from "react";
 import Link from "next/link";
 import { ButtonEl } from "@/components/ui/button";
 
-const STORAGE_KEY = "flexgym-cookie-consent";
-const CONSENT_EVENT = "flexgym-cookie-consent-change";
+const STORAGE_KEY = "forgegym-cookie-consent";
+const CONSENT_EVENT = "forgegym-cookie-consent-change";
 
 function subscribe(callback: () => void) {
   window.addEventListener("storage", callback);

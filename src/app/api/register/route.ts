@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
+import { generateCheckInCode } from "@/lib/checkin-code";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Add meg a teljes neved."),
@@ -37,6 +38,7 @@ export async function POST(request: Request) {
       name: parsed.data.name,
       email,
       passwordHash,
+      checkInCode: generateCheckInCode(),
     },
   });
 

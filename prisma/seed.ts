@@ -1,5 +1,6 @@
 import "dotenv/config";
 import bcrypt from "bcryptjs";
+import { randomBytes } from "node:crypto";
 import { PrismaClient } from "../src/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 
@@ -7,6 +8,10 @@ const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 const prisma = new PrismaClient({ adapter });
 
 const DAY = 24 * 60 * 60 * 1000;
+
+function generateCheckInCode() {
+  return randomBytes(6).toString("hex");
+}
 
 function daysAgo(n: number) {
   return new Date(Date.now() - n * DAY);
@@ -51,14 +56,26 @@ async function main() {
   await prisma.membership.deleteMany();
   await prisma.user.deleteMany();
 
-  const passwordHash = await bcrypt.hash("flexgym123", 10);
+  const passwordHash = await bcrypt.hash("forgegym123", 10);
 
   const user = await prisma.user.create({
     data: {
       name: "Kovács Bence",
-      email: "demo@flexgym.hu",
+      email: "demo@forgegym.hu",
       phone: "+36 30 123 4567",
       passwordHash,
+      checkInCode: generateCheckInCode(),
+    },
+  });
+
+  const staff = await prisma.user.create({
+    data: {
+      name: "Nagy Réka",
+      email: "staff@forgegym.hu",
+      phone: "+36 30 987 6543",
+      passwordHash,
+      role: "STAFF",
+      checkInCode: generateCheckInCode(),
     },
   });
 
@@ -149,15 +166,17 @@ async function main() {
       d.setHours(c.hour, c.min, 0, 0);
       return {
         userId: user.id,
+        scannedById: staff.id,
         checkedInAt: d,
         durationMin: c.duration,
-        gate: "Flex Gym Budapest - Fő bejárat",
+        gate: "Forge Gym Budapest - Fő bejárat",
       };
     }),
   });
 
   console.log("Seed kész.");
-  console.log("Demo belépés: demo@flexgym.hu / flexgym123");
+  console.log("Demo tag belépés: demo@forgegym.hu / forgegym123");
+  console.log("Demo staff belépés (admin): staff@forgegym.hu / forgegym123");
 }
 
 main()

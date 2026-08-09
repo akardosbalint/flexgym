@@ -10,8 +10,12 @@ export default auth((req) => {
     signInUrl.searchParams.set("callbackUrl", req.nextUrl.pathname);
     return NextResponse.redirect(signInUrl);
   }
+
+  if (req.nextUrl.pathname.startsWith("/admin") && req.auth.user.role !== "STAFF") {
+    return NextResponse.redirect(new URL("/dashboard", req.nextUrl.origin));
+  }
 });
 
 export const config = {
-  matcher: ["/dashboard/:path*"],
+  matcher: ["/dashboard/:path*", "/admin/:path*"],
 };

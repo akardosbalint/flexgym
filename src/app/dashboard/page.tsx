@@ -3,10 +3,11 @@ import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { getDashboardData } from "@/lib/dashboard-data";
 import { MembershipCard } from "@/components/dashboard/membership-card";
+import { MemberQrCard } from "@/components/dashboard/member-qr-card";
 import { StatCard } from "@/components/dashboard/stat-card";
 import { UsageChart } from "@/components/dashboard/usage-chart";
 
-export const metadata: Metadata = { title: "Dashboard | Flex Gym" };
+export const metadata: Metadata = { title: "Dashboard | Forge Gym" };
 
 function formatDateTime(d: Date) {
   return d.toLocaleString("hu-HU", {
@@ -20,7 +21,7 @@ function formatDateTime(d: Date) {
 export default async function DashboardOverviewPage() {
   const session = await auth();
   const userId = session!.user.id;
-  const { activeMembership, checkIns, checkInsLast30Days, avgDurationMin, weeklyUsage } =
+  const { checkInCode, activeMembership, checkIns, checkInsLast30Days, avgDurationMin, weeklyUsage } =
     await getDashboardData(userId);
 
   const firstName = (session!.user.name ?? "Tag").split(" ")[0];
@@ -32,7 +33,10 @@ export default async function DashboardOverviewPage() {
         <p className="mt-1 text-muted-light">Itt a heti összefoglalód és az aktuális bérleted.</p>
       </div>
 
-      <MembershipCard membership={activeMembership} />
+      <div className="grid gap-4 lg:grid-cols-[280px_1fr]">
+        <MemberQrCard checkInCode={checkInCode} />
+        <MembershipCard membership={activeMembership} />
+      </div>
 
       <div className="grid gap-4 sm:grid-cols-3">
         <StatCard

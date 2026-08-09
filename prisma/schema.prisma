@@ -1,8 +1,6 @@
-// Prisma schema for the FlexGym demo backend.
-// This models the data that, in production, would be synced from GPass
-// (memberships, entries/check-ins, purchases). For now it is seeded with
-// realistic mock data so the member dashboard can be built and demoed
-// before a real GPass API integration exists.
+// Prisma schema for the Forge Gym backend: members, memberships, QR
+// check-ins (scanned by staff through the admin app) and Stripe-backed
+// purchases.
 
 generator client {
   provider = "prisma-client"
@@ -13,16 +11,25 @@ datasource db {
   provider = "postgresql"
 }
 
+enum UserRole {
+  MEMBER
+  STAFF
+}
+
 model User {
   id           String   @id @default(cuid())
   name         String
   email        String   @unique
   passwordHash String
   phone        String?
+  role         UserRole @default(MEMBER)
+  /// Opaque token encoded in the member's personal check-in QR code.
+  checkInCode  String   @unique
   createdAt    DateTime @default(now())
 
   memberships         Membership[]
-  checkIns            CheckIn[]
+  checkIns            CheckIn[]            @relation("MemberCheckIns")
+  staffCheckIns       CheckIn[]            @relation("StaffScans")
   purchases           Purchase[]
   passwordResetTokens PasswordResetToken[]
 }
@@ -46,41 +53,53 @@ enum MembershipStatus {
 }
 
 model Membership {
-  id            String           @id @default(cuid())
-  userId        String
-  user          User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  name          String
-  totalEntries  Int?
-  usedEntries   Int              @default(0)
-  startDate     DateTime
-  endDate       DateTime
-  status        MembershipStatus @default(ACTIVE)
-  priceHuf      Int
-  purchasedAt   DateTime         @default(now())
+  id           String           @id @default(cuid())
+  userId       String
+  user         User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name         String
+  totalEntries Int?
+  usedEntries  Int              @default(0)
+  startDate    DateTime
+  endDate      DateTime
+  status       MembershipStatus @default(ACTIVE)
+  priceHuf     Int
+  purchasedAt  DateTime         @default(now())
 
   @@index([userId])
 }
 
 model CheckIn {
-  id          String   @id @default(cuid())
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  checkedInAt DateTime
-  durationMin Int?
-  gate        String   @default("Flex Gym Budapest - Fő bejárat")
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation("MemberCheckIns", fields: [userId], references: [id], onDelete: Cascade)
+  /// Staff member who scanned the member's QR code, if known.
+  scannedById   String?
+  scannedBy     User?    @relation("StaffScans", fields: [scannedById], references: [id], onDelete: SetNull)
+  checkedInAt   DateTime
+  durationMin   Int?
+  gate          String   @default("Forge Gym Budapest - Fő bejárat")
 
   @@index([userId])
+  @@index([scannedById])
+}
+
+enum PurchaseStatus {
+  PENDING
+  PAID
+  FAILED
 }
 
 model Purchase {
-  id          String   @id @default(cuid())
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  item        String
-  amountHuf   Int
-  invoiceNo   String
-  method      String   @default("Bankkártya")
-  createdAt   DateTime @default(now())
+  id              String         @id @default(cuid())
+  userId          String
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  item            String
+  amountHuf       Int
+  invoiceNo       String
+  method          String         @default("Bankkártya")
+  status          PurchaseStatus @default(PAID)
+  stripeSessionId String?        @unique
+  createdAt       DateTime       @default(now())
 
   @@index([userId])
 }

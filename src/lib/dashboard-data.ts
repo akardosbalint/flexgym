@@ -5,7 +5,11 @@ const DAY = 24 * 60 * 60 * 1000;
 const WEEK = 7 * DAY;
 
 export async function getDashboardData(userId: string) {
-  const [memberships, checkIns, purchases] = await Promise.all([
+  const [user, memberships, checkIns, purchases] = await Promise.all([
+    prisma.user.findUniqueOrThrow({
+      where: { id: userId },
+      select: { checkInCode: true },
+    }),
     prisma.membership.findMany({
       where: { userId },
       orderBy: { startDate: "desc" },
@@ -50,6 +54,7 @@ export async function getDashboardData(userId: string) {
   });
 
   return {
+    checkInCode: user.checkInCode,
     memberships,
     activeMembership,
     checkIns,

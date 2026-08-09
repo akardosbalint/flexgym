@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ContentCard } from "@/components/ui/content-card";
 import { TrainersGrid } from "@/components/trainers-grid";
 
-export const metadata: Metadata = { title: "Edzőink | Flex Gym" };
+export const metadata: Metadata = { title: "Edzőink | Forge Gym" };
 
 export default function TrainersPage() {
   return (
@@ -27,7 +27,7 @@ export default function TrainersPage() {
                 Jelentkezés edzői pozícióba
               </h2>
               <p className="mx-auto mt-2 max-w-md text-sm text-white/90">
-                Ha te is része szeretnél lenni a Flex Gym csapatának, írj nekünk
+                Ha te is része szeretnél lenni a Forge Gym csapatának, írj nekünk
                 pár szót magadról és a szakterületedről.
               </p>
               <Button href="/kapcsolat" variant="dark" size="md" className="mt-5">

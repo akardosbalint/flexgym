@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ContentCard } from "@/components/ui/content-card";
 import { Reveal } from "@/components/ui/reveal";
 import { Counter } from "@/components/ui/counter";
-import { ArnoldSection } from "@/components/arnold-section";
+import { QrShowcaseSection } from "@/components/qr-showcase-section";
 import { Marquee } from "@/components/marquee";
 import { RatingBadge } from "@/components/rating-badge";
 import { OPENING_HOURS, CONTACT } from "@/lib/site-data";
@@ -29,7 +29,7 @@ const SERVICES = [
 
 const MARQUEE_ITEMS = [
   "LEGENDÁK EDZŐTERME",
-  "ARNOLD SCHWARZENEGGER KEDVENC BUDAPESTI TERME",
+  "QR-KÓDOS BELÉPÉS",
   "1974 ÓTA BUDAPESTEN",
   "2000+ AKTÍV TAG",
 ];
@@ -41,12 +41,10 @@ export default function HomePage() {
         <Container className="relative grid gap-12 pt-20 sm:pt-28 lg:grid-cols-2 lg:items-center">
           <div>
             <p className="font-heading text-sm font-semibold tracking-widest text-accent uppercase">
-              Flex Gym Budapest
+              Forge Gym Budapest
             </p>
             <h1 className="mt-3 font-display text-6xl leading-[0.92] tracking-wide text-white uppercase [text-wrap:balance] sm:text-7xl">
-              Edzz legendák
-              <br />
-              között,
+              Kovácsold magad,
               <br />
               válj{" "}
               <span className="bg-accent px-2 shadow-[0_0_60px_-8px_rgba(224,18,31,0.75)]">
@@ -54,9 +52,9 @@ export default function HomePage() {
               </span>
             </h1>
             <p className="mt-6 max-w-lg text-lg text-muted-dark">
-              A Márvány utcai csarnokban négy évtizede formálódnak a legjobb
-              formák. Csatlakozz, és kövesd a fejlődésed a saját
-              tagsági dashboardodon.
+              A Váci úti csarnokban négy évtizede formálódnak a legjobb
+              formák. Csatlakozz, és kövesd a fejlődésed a saját tagsági
+              dashboardodon.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <Button href="/regisztracio" variant="primary" size="lg">
@@ -98,7 +96,7 @@ export default function HomePage() {
 
       <Marquee items={MARQUEE_ITEMS} />
 
-      <ArnoldSection />
+      <QrShowcaseSection />
 
       <section className="bg-ink py-20">
         <Container>
@@ -184,9 +182,9 @@ export default function HomePage() {
               </h2>
               <p className="mt-4 max-w-xl text-muted-light">
                 Bejelentkezés után saját dashboardon látod az aktuális
-                bérletedet, a hátralévő alkalmaidat és a belépéseid
-                történetét — a beléptetés a GPass rendszerén keresztül
-                történik.
+                bérletedet, a hátralévő alkalmaidat, a belépéseid
+                történetét és a személyes QR-kódodat, amivel a recepción
+                beléphetsz.
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 <Button href="/dashboard" variant="primary" size="md">
@@ -229,11 +227,11 @@ export default function HomePage() {
               Készen állsz a <span className="bg-accent px-2">változásra?</span>
             </h2>
             <p className="mx-auto mt-5 max-w-lg text-muted-dark">
-              Regisztrálj most, és még ma elkezdheted — az első bérleted a
-              GPass rendszeren keresztül azonnal aktiválható.
+              Regisztrálj most, és még ma elkezdheted — az első bérleted
+              bankkártyával azonnal aktiválható.
             </p>
             <Button href="/regisztracio" variant="primary" size="lg" className="mt-8">
-              Csatlakozom a Flex Gymhez
+              Csatlakozom a Forge Gymhez
             </Button>
           </Reveal>
         </Container>

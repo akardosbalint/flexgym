@@ -9,14 +9,14 @@ export function SiteFooter() {
       <Container className="grid gap-10 py-14 md:grid-cols-3">
         <div>
           <p className="font-display text-2xl leading-tight tracking-wide text-accent">
-            FLEX GYM
+            FORGE GYM
             <br />
             WELCOME HOME
           </p>
           <div className="mt-3 h-1 w-14 bg-accent" />
           <p className="mt-4 max-w-xs text-sm text-muted-dark">
-            Edzz legendák között, válj legendává! Testépítés, kardió és
-            küzdősport egy helyen, a budai Márvány utcában.
+            Kovácsold magad, válj legendává! Testépítés, kardió és
+            küzdősport egy helyen, a Váci úton.
           </p>
           <ul className="mt-6 space-y-2 text-sm text-muted-dark">
             <li>{CONTACT.address}</li>
@@ -76,7 +76,7 @@ export function SiteFooter() {
             <Link href="/aszf" className="hover:text-accent">
               ÁSZF
             </Link>
-            <span>Belépés és bérletkezelés: GPass</span>
+            <span>QR-kódos beléptetés</span>
           </div>
         </Container>
       </div>

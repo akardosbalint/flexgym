@@ -24,7 +24,7 @@ export function StickyCtaBar() {
       <div className="flex items-center justify-between gap-3">
         <div className="min-w-0">
           <p className="truncate font-heading text-sm font-semibold text-white uppercase">
-            Csatlakozz a Flex Gymhez
+            Csatlakozz a Forge Gymhez
           </p>
           <p className="truncate text-xs text-muted-dark">Első bérlet ma is aktiválható</p>
         </div>

@@ -3,9 +3,9 @@ import { auth } from "@/lib/auth";
 import { getDashboardData } from "@/lib/dashboard-data";
 import { MembershipCard } from "@/components/dashboard/membership-card";
 import { PRICING } from "@/lib/site-data";
-import { purchaseMembership } from "./actions";
+import { startCheckout } from "./actions";
 
-export const metadata: Metadata = { title: "Bérletem | Flex Gym" };
+export const metadata: Metadata = { title: "Bérletem | Forge Gym" };
 
 function formatHuf(value: number) {
   return `${value.toLocaleString("hu-HU")} Ft`;
@@ -15,7 +15,12 @@ function formatDate(d: Date) {
   return d.toLocaleDateString("hu-HU", { year: "numeric", month: "short", day: "numeric" });
 }
 
-export default async function MembershipPage() {
+export default async function MembershipPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ success?: string; canceled?: string; error?: string }>;
+}) {
+  const { success, canceled, error } = await searchParams;
   const session = await auth();
   const userId = session!.user.id;
   const { activeMembership, memberships } = await getDashboardData(userId);
@@ -29,6 +34,25 @@ export default async function MembershipPage() {
         <p className="mt-1 text-muted-light">Aktuális bérleted és a megújítási lehetőségek.</p>
       </div>
 
+      {success && (
+        <div className="rounded-lg bg-accent p-4 text-sm text-white">
+          A fizetés sikeres volt! A bérleted néhány másodpercen belül
+          aktiválódik — ha még nem látod lent, frissítsd az oldalt.
+        </div>
+      )}
+      {canceled && (
+        <div className="rounded-lg border border-paper-border bg-paper-2 p-4 text-sm text-muted-light">
+          A fizetés megszakadt, nem történt terhelés. Bármikor újra
+          próbálkozhatsz.
+        </div>
+      )}
+      {error && (
+        <div className="rounded-lg border border-accent/40 bg-accent/10 p-4 text-sm text-paper-fg">
+          Nem sikerült elindítani a fizetést. Próbáld újra, vagy jelezd
+          nekünk, ha a hiba továbbra is fennáll.
+        </div>
+      )}
+
       <MembershipCard membership={activeMembership} />
 
       <div>
@@ -36,8 +60,9 @@ export default async function MembershipPage() {
           {activeMembership ? "Bérlet megújítása" : "Bérlet vásárlása"}
         </h2>
         <p className="mt-1 text-sm text-muted-light">
-          A vásárlás ezen a demó felületen azonnal aktiválja a bérletet — élesben ez a
-          GPass fizetési folyamatán keresztül történne.
+          A fizetés a Stripe biztonságos, bankkártyás felületén történik. A
+          bérleted a sikeres fizetés visszaigazolása után automatikusan
+          aktiválódik.
         </p>
 
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -55,13 +80,13 @@ export default async function MembershipPage() {
                 </p>
                 <p className="mt-1 text-xs text-muted-light">Érvényesség: {plan.validity}</p>
               </div>
-              <form action={purchaseMembership} className="mt-5">
+              <form action={startCheckout} className="mt-5">
                 <input type="hidden" name="plan" value={plan.name} />
                 <button
                   type="submit"
                   className="w-full rounded-md bg-accent px-4 py-2.5 text-sm font-semibold tracking-wide text-accent-foreground uppercase transition-colors hover:bg-accent-hover"
                 >
-                  Vásárlás
+                  Fizetés bankkártyával
                 </button>
               </form>
             </div>

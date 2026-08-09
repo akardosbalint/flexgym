@@ -3,7 +3,7 @@ import { PageHero } from "@/components/page-hero";
 import { Container } from "@/components/ui/container";
 import { ContentCard } from "@/components/ui/content-card";
 
-export const metadata: Metadata = { title: "Galéria | Flex Gym" };
+export const metadata: Metadata = { title: "Galéria | Forge Gym" };
 
 const GALLERY_ITEMS = [
   { title: "Testépítő terem", tall: true },

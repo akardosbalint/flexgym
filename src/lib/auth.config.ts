@@ -13,12 +13,16 @@ export const authConfig = {
     async jwt({ token, user }) {
       if (user?.id) {
         token.uid = user.id;
+        token.role = user.role;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user && typeof token.uid === "string") {
         session.user.id = token.uid;
+      }
+      if (session.user && typeof token.role === "string") {
+        session.user.role = token.role as "MEMBER" | "STAFF";
       }
       return session;
     },

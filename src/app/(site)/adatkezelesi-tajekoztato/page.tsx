@@ -4,7 +4,7 @@ import { Container } from "@/components/ui/container";
 import { ContentCard } from "@/components/ui/content-card";
 import { CONTACT } from "@/lib/site-data";
 
-export const metadata: Metadata = { title: "Adatkezelési tájékoztató | Flex Gym" };
+export const metadata: Metadata = { title: "Adatkezelési tájékoztató | Forge Gym" };
 
 export default function PrivacyPolicyPage() {
   return (
@@ -18,7 +18,7 @@ export default function PrivacyPolicyPage() {
               <strong>Minta szöveg.</strong> Ez az oldal egy általános
               sablon, ami bemutatja a tájékoztató szerkezetét — élesítés
               előtt jogi szakértővel/adatvédelmi tisztviselővel
-              szükséges véleményeztetni és a Flex Gym tényleges
+              szükséges véleményeztetni és a Forge Gym tényleges
               adatkezelési gyakorlatához igazítani.
             </div>
 
@@ -29,7 +29,7 @@ export default function PrivacyPolicyPage() {
 
             <Section title="1. Az adatkezelő">
               <p>
-                Flex Gym ({CONTACT.address}, {CONTACT.email}, {CONTACT.phone})
+                Forge Gym ({CONTACT.address}, {CONTACT.email}, {CONTACT.phone})
                 a jelen weboldal (a továbbiakban: „Weboldal”) üzemeltetője és
                 az azon keresztül megadott személyes adatok adatkezelője.
               </p>
@@ -48,9 +48,16 @@ export default function PrivacyPolicyPage() {
                 </li>
                 <li>
                   <strong>Tagsági adatok (bérlet, belépés, vásárlás):</strong>{" "}
-                  a beléptetést és a bérletkezelést a GPass rendszere végzi;
-                  a Weboldal a tagsági dashboardon ezen adatok egy részét
-                  jeleníti meg a bejelentkezett tag számára.
+                  a bérleteidet, a QR-kódos belépőkódodhoz köthető
+                  beléptetéseidet (időpont, ügyeletes munkatárs) és a
+                  vásárlásaidat a Weboldal saját rendszerében tároljuk és
+                  jelenítjük meg a tagsági dashboardon.
+                </li>
+                <li>
+                  <strong>Fizetési adatok:</strong> a bankkártyás fizetést a
+                  Weboldal fizetési szolgáltatója (Stripe) bonyolítja le;
+                  kártyaadatokat mi magunk nem tárolunk, azokhoz nem is
+                  férünk hozzá.
                 </li>
                 <li>
                   <strong>Technikai adatok:</strong> cookie-k útján gyűjtött,
@@ -80,7 +87,7 @@ export default function PrivacyPolicyPage() {
 
             <Section title="5. Adatfeldolgozók, adattovábbítás">
               <p>
-                A tagsági és beléptetési adatok kezelésében a GPass mint
+                A bankkártyás fizetések lebonyolításában a Stripe mint
                 önálló adatkezelő/adatfeldolgozó vesz részt. A Weboldal
                 üzemeltetéséhez tárhely- és adatbázis-szolgáltatót veszünk
                 igénybe; ezek a szolgáltatók kizárólag a technikai

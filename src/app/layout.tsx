@@ -22,9 +22,9 @@ const bodyFont = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Flex Gym Budapest",
+  title: "Forge Gym Budapest",
   description:
-    "Flex Gym Budapest - Arnold Schwarzenegger kedvenc budapesti terme. Testépítés, kardió és küzdősport egy helyen a Márvány utcában.",
+    "Forge Gym Budapest - kovácsold magad, válj legendává! Testépítés, kardió és küzdősport egy helyen, saját QR-kódos beléptető rendszerrel.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
-export const metadata: Metadata = { title: "Profil | Flex Gym" };
+export const metadata: Metadata = { title: "Profil | Forge Gym" };
 
 function formatDate(d: Date) {
   return d.toLocaleDateString("hu-HU", { year: "numeric", month: "long", day: "numeric" });
@@ -16,7 +16,7 @@ export default async function ProfilePage() {
     <div className="max-w-xl space-y-8">
       <div>
         <h1 className="font-heading text-3xl font-bold text-paper-fg">Profil</h1>
-        <p className="mt-1 text-muted-light">Fiókadataid a Flex Gymnél.</p>
+        <p className="mt-1 text-muted-light">Fiókadataid a Forge Gymnél.</p>
       </div>
 
       <div className="rounded-lg border border-paper-border bg-paper p-6">
@@ -41,9 +41,12 @@ export default async function ProfilePage() {
       </div>
 
       <div className="rounded-lg border border-paper-border bg-paper p-6 text-sm text-muted-light">
-        A profiladatok szerkesztése és a jelszóváltoztatás egy következő
-        fejlesztési körben érkezik, miután a GPass fiókoddal is
-        összekapcsoljuk a profilt.
+        A profiladatok szerkesztése egy következő fejlesztési körben
+        érkezik. Jelszavadat addig is bármikor visszaállíthatod az{" "}
+        <a href="/elfelejtett-jelszo" className="text-accent hover:underline">
+          elfelejtett jelszó
+        </a>{" "}
+        oldalon.
       </div>
     </div>
   );
