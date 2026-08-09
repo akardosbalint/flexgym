@@ -25,6 +25,14 @@ Built with Next.js (App Router), TypeScript, Tailwind CSS 4, NextAuth
   membership is only activated by the `checkout.session.completed` webhook
   (`src/app/api/webhooks/stripe/route.ts`) — never optimistically on
   redirect, since reaching Stripe isn't proof of a completed payment.
+- **Wallets**: the dashboard's QR card also offers "Add to Google Wallet"
+  and "Add to Apple Wallet" buttons (`/api/wallet/google`,
+  `/api/wallet/apple`) so a member can save their check-in code to their
+  phone for faster entry. Both build the pass server-side from the same
+  `checkInCode` used on-page (`src/lib/google-wallet.ts`,
+  `src/lib/apple-wallet.ts`) and redirect to `/dashboard?walletError=...`
+  with a friendly banner if the corresponding integration isn't
+  configured, instead of crashing.
 
 ## Brand
 
@@ -73,13 +81,52 @@ Open http://localhost:3000.
 Without `STRIPE_SECRET_KEY` set, the rest of the site still works — only
 starting a checkout fails, gracefully, with an on-page error message.
 
+### Google Wallet setup
+
+1. Create a Google Wallet API issuer account:
+   https://pay.google.com/business/console (free).
+2. In that project, create a service account and download its JSON key.
+3. Fill in `.env`:
+   - `GOOGLE_WALLET_ISSUER_ID` — shown in the Business Console.
+   - `GOOGLE_WALLET_SERVICE_ACCOUNT_EMAIL` — the service account's `client_email`.
+   - `GOOGLE_WALLET_PRIVATE_KEY` — the key's `private_key` field, with real
+     newlines replaced by `\n`.
+4. Click "Hozzáadás Google Wallethez" on `/dashboard`. This builds and
+   signs a save-to-wallet JWT (`src/lib/google-wallet.ts`) — no live call
+   to Google is needed for this flow, so it works as soon as the three
+   env vars above are set.
+
+### Apple Wallet setup
+
+Apple Wallet passes need a **paid Apple Developer Program membership**
+(there's no free tier for this), so this is the one integration that
+can't be turned on without that:
+
+1. Create a Pass Type ID: https://developer.apple.com/account/resources/identifiers/list/passTypeId,
+   then generate and download its signing certificate.
+2. Fill in `.env`: `APPLE_TEAM_ID`, `APPLE_PASS_TYPE_ID`, `APPLE_WWDR_CERT`
+   (Apple's WWDR intermediate certificate), `APPLE_SIGNER_CERT` /
+   `APPLE_SIGNER_KEY` (from the Pass Type ID certificate), and
+   `APPLE_SIGNER_KEY_PASSPHRASE` if the key has one — all as PEM text with
+   real newlines replaced by `\n`.
+3. Add real brand icons at `public/wallet/icon.png` (29×29),
+   `public/wallet/icon@2x.png` (58×58) and `public/wallet/logo.png` — see
+   `public/wallet/README.md`.
+4. Click "Hozzáadás Apple Wallethez" on `/dashboard` to download a
+   `.pkpass` file (`src/lib/apple-wallet.ts`).
+
+Without these set, both wallet buttons still render — clicking them just
+redirects back to the dashboard with an on-page message instead of
+crashing.
+
 ## Deploying (Vercel)
 
 1. Create a Postgres database (Vercel Postgres, Neon, Supabase, ...) and copy
    its connection string.
 2. In the Vercel project, set the environment variables from `.env.example`:
    `DATABASE_URL`, `AUTH_SECRET` (generate with `npx auth secret`),
-   `AUTH_TRUSTED_HOST=true`, `STRIPE_SECRET_KEY`.
+   `AUTH_TRUSTED_HOST=true`, `STRIPE_SECRET_KEY`, and optionally the
+   Google/Apple Wallet variables described above.
 3. In the Stripe dashboard, add a webhook endpoint pointing at
    `https://<your-domain>/api/webhooks/stripe` listening for
    `checkout.session.completed`, and put its signing secret in
@@ -102,6 +149,8 @@ starting a checkout fails, gracefully, with an on-page error message.
 - `src/lib/qr-checkin.ts` — QR content encode/decode for the check-in code.
 - `src/lib/membership-plans.ts` — shared plan → duration/entries mapping
   used by both the checkout action and the Stripe webhook.
+- `src/lib/google-wallet.ts` / `src/lib/apple-wallet.ts` — build the
+  "Add to Google/Apple Wallet" pass for a member's check-in code.
 - `prisma/schema.prisma` — data model (`User` incl. `role`/`checkInCode`,
   `Membership`, `CheckIn` incl. `scannedById`, `Purchase` incl.
   `stripeSessionId`).
