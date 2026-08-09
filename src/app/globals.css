@@ -94,3 +94,36 @@ h4 {
   z-index: -1;
   background: radial-gradient(circle at 50% 0%, transparent 0%, var(--ink) 78%);
 }
+
+/* Infinite ticker used by the Marquee component. */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 26s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
+}
+
+/* Angled section edges for a more dynamic, less "stacked rectangles" feel. */
+.clip-diagonal-down {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 3.5vw), 0 100%);
+}
+
+.clip-diagonal-up {
+  clip-path: polygon(0 3.5vw, 100% 0, 100% 100%, 0 100%);
+}
+
+.glow-accent {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 40%, transparent), 0 20px 45px -20px color-mix(in srgb, var(--accent) 65%, transparent);
+}

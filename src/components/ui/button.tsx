@@ -5,10 +5,11 @@ type Variant = "primary" | "dark" | "outline-light" | "outline-dark";
 type Size = "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-sm font-heading font-semibold uppercase tracking-wide transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-50 disabled:pointer-events-none";
+  "inline-flex items-center justify-center gap-2 rounded-sm font-heading font-semibold uppercase tracking-wide transition-all duration-200 hover:scale-[1.03] active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-50 disabled:pointer-events-none disabled:hover:scale-100";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-accent text-accent-foreground hover:bg-accent-hover",
+  primary:
+    "bg-accent text-accent-foreground shadow-[0_0_0_1px_rgba(224,18,31,0.4)] hover:bg-accent-hover hover:shadow-[0_10px_30px_-8px_rgba(224,18,31,0.65)]",
   dark: "bg-ink text-ink-fg hover:bg-ink-2",
   "outline-light": "border border-white/30 text-white hover:border-accent hover:text-accent",
   "outline-dark": "border border-paper-border text-paper-fg hover:border-accent hover:text-accent",

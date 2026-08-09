@@ -1,17 +1,20 @@
 import { Container } from "@/components/ui/container";
+import { Reveal } from "@/components/ui/reveal";
 
 export function ArnoldSection() {
   return (
     <section className="brand-pattern relative overflow-hidden border-y border-ink-border bg-ink py-20">
       <Container className="relative grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:items-center">
-        <div>
+        <Reveal>
           <p className="font-heading text-sm font-semibold tracking-widest text-accent uppercase">
             Legendás múlt
           </p>
           <h2 className="mt-3 font-display text-4xl leading-[1.02] tracking-wide text-white uppercase sm:text-5xl">
             Arnold Schwarzenegger
             <br />
-            <span className="bg-accent px-2">kedvenc budapesti terme</span>
+            <span className="bg-accent px-2 shadow-[0_0_50px_-10px_rgba(224,18,31,0.7)]">
+              kedvenc budapesti terme
+            </span>
           </h2>
           <p className="mt-6 max-w-xl text-muted-dark">
             A Flex Gym négy évtizede a budapesti testépítés otthona — Arnold
@@ -19,9 +22,11 @@ export function ArnoldSection() {
             büszkén valljuk magunkat az ő kedvenc budapesti termének. Az
             aláírt emlékek és közös fotók ma is a csarnok falait díszítik.
           </p>
-        </div>
+        </Reveal>
 
-        <PhotoFramePlaceholder />
+        <Reveal delay={0.15}>
+          <PhotoFramePlaceholder />
+        </Reveal>
       </Container>
     </section>
   );
@@ -29,7 +34,7 @@ export function ArnoldSection() {
 
 function PhotoFramePlaceholder() {
   return (
-    <figure className="rounded-lg border border-paper-border bg-paper p-3">
+    <figure className="rounded-lg border border-paper-border bg-paper p-3 transition-transform duration-500 hover:-rotate-1">
       <div
         className="flex aspect-[4/3] flex-col items-center justify-center gap-3 rounded-md border-2 border-dashed border-paper-border text-center"
         style={{ background: "linear-gradient(135deg, var(--paper-2), var(--paper))" }}
