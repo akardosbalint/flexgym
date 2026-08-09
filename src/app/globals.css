@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+:root {
+  /* Dark "chrome": header, footer, hero/banner sections - matches the
+     original site's black header/footer with red accents. */
+  --ink: #0b0b0c;
+  --ink-2: #19191c;
+  --ink-border: #2c2c31;
+  --ink-fg: #f7f7f8;
+  --muted-dark: #a3a3ab;
+
+  /* Light "paper": the big white content cards the original site floats
+     its tables/forms/grids inside of. */
+  --paper: #ffffff;
+  --paper-2: #f4f4f5;
+  --paper-border: #e6e6e9;
+  --paper-fg: #18181b;
+  --muted-light: #6b6b72;
+
+  --accent: #e0121f;
+  --accent-hover: #ff2532;
+  --accent-foreground: #ffffff;
+
+  --background: var(--ink);
+  --foreground: var(--ink-fg);
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-border: var(--ink-border);
+  --color-ink-fg: var(--ink-fg);
+  --color-muted-dark: var(--muted-dark);
+
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-paper-border: var(--paper-border);
+  --color-paper-fg: var(--paper-fg);
+  --color-muted-light: var(--muted-light);
+
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --font-display: var(--font-display);
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), Arial, Helvetica, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading), var(--font-body), sans-serif;
+  letter-spacing: 0.01em;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+/* Repeating badge-logo watermark used on dark sections, echoing the
+   original site's circular "FLEXGYM BODYBUILDING" tiled background. */
+.brand-pattern {
+  position: relative;
+  isolation: isolate;
+}
+
+.brand-pattern::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.045' stroke-width='1.4'%3E%3Ccircle cx='40' cy='40' r='38'/%3E%3Cpath d='M18 40h44M24 32v16M56 32v16'/%3E%3Ccircle cx='180' cy='140' r='38'/%3E%3Cpath d='M158 140h44M164 132v16M196 132v16'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 220px 220px;
+  background-repeat: repeat;
+}
+
+.brand-pattern-fade::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(circle at 50% 0%, transparent 0%, var(--ink) 78%);
+}

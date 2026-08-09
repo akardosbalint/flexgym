@@ -1,0 +1,73 @@
+// Prisma schema for the FlexGym demo backend.
+// This models the data that, in production, would be synced from GPass
+// (memberships, entries/check-ins, purchases). For now it is seeded with
+// realistic mock data so the member dashboard can be built and demoed
+// before a real GPass API integration exists.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  phone        String?
+  createdAt    DateTime @default(now())
+
+  memberships Membership[]
+  checkIns    CheckIn[]
+  purchases   Purchase[]
+}
+
+enum MembershipStatus {
+  ACTIVE
+  EXPIRED
+  CANCELLED
+}
+
+model Membership {
+  id            String           @id @default(cuid())
+  userId        String
+  user          User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name          String
+  totalEntries  Int?
+  usedEntries   Int              @default(0)
+  startDate     DateTime
+  endDate       DateTime
+  status        MembershipStatus @default(ACTIVE)
+  priceHuf      Int
+  purchasedAt   DateTime         @default(now())
+
+  @@index([userId])
+}
+
+model CheckIn {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  checkedInAt DateTime
+  durationMin Int?
+  gate        String   @default("Flex Gym Budapest - Fő bejárat")
+
+  @@index([userId])
+}
+
+model Purchase {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  item        String
+  amountHuf   Int
+  invoiceNo   String
+  method      String   @default("Bankkártya")
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+}
