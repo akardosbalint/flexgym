@@ -1,6 +1,7 @@
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { ContentCard } from "@/components/ui/content-card";
+import { ArnoldSection } from "@/components/arnold-section";
 import { OPENING_HOURS, CONTACT } from "@/lib/site-data";
 import { TRAINERS } from "@/lib/site-data";
 
@@ -68,6 +69,8 @@ export default function HomePage() {
           </div>
         </Container>
       </section>
+
+      <ArnoldSection />
 
       <section className="bg-ink py-20">
         <Container>

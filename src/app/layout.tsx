@@ -24,7 +24,7 @@ const bodyFont = Inter({
 export const metadata: Metadata = {
   title: "Flex Gym Budapest",
   description:
-    "Flex Gym Budapest - Edzz legendák között, válj legendává! Testépítés, kardió és küzdősport egy helyen a Márvány utcában.",
+    "Flex Gym Budapest - Arnold Schwarzenegger kedvenc budapesti terme. Testépítés, kardió és küzdősport egy helyen a Márvány utcában.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
