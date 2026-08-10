@@ -4,7 +4,11 @@ import { Container } from "@/components/ui/container";
 import { ContentCard } from "@/components/ui/content-card";
 import { ForgotPasswordForm } from "@/components/forgot-password-form";
 
-export const metadata: Metadata = { title: "Elfelejtett jelszó | Forge Gym" };
+export const metadata: Metadata = {
+  title: "Elfelejtett jelszó",
+  description: "Kérj új jelszó-visszaállító linket a Forge Gym fiókodhoz.",
+  robots: { index: false, follow: false },
+};
 
 export default function ForgotPasswordPage() {
   return (
@@ -24,7 +28,7 @@ export default function ForgotPasswordPage() {
 
           <p className="mt-6 text-sm text-muted-light">
             Eszedbe jutott?{" "}
-            <Link href="/bejelentkezes" className="font-medium text-accent hover:underline">
+            <Link href="/bejelentkezes" className="font-medium text-accent underline underline-offset-2 hover:no-underline">
               Vissza a bejelentkezéshez
             </Link>
           </p>

@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { AccountDangerZone } from "@/components/dashboard/account-danger-zone";
 
-export const metadata: Metadata = { title: "Profil | Forge Gym" };
+export const metadata: Metadata = { title: "Profil" };
 
 function formatDate(d: Date) {
   return d.toLocaleDateString("hu-HU", { year: "numeric", month: "long", day: "numeric" });
@@ -43,11 +44,27 @@ export default async function ProfilePage() {
       <div className="rounded-lg border border-paper-border bg-paper p-6 text-sm text-muted-light">
         A profiladatok szerkesztése egy következő fejlesztési körben
         érkezik. Jelszavadat addig is bármikor visszaállíthatod az{" "}
-        <a href="/elfelejtett-jelszo" className="text-accent hover:underline">
+        <a href="/elfelejtett-jelszo" className="text-accent underline underline-offset-2 hover:no-underline">
           elfelejtett jelszó
         </a>{" "}
         oldalon.
       </div>
+
+      <div className="rounded-lg border border-paper-border bg-paper p-6">
+        <h2 className="font-heading text-lg font-semibold text-paper-fg">Adataim letöltése</h2>
+        <p className="mt-2 text-sm text-muted-light">
+          Töltsd le egy fájlban minden adatot, amit rólad tárolunk: fiókadatok,
+          bérletek, belépések és vásárlások.
+        </p>
+        <a
+          href="/api/account/export"
+          className="mt-4 inline-flex items-center justify-center gap-2 rounded-sm border border-paper-border px-5 py-2.5 font-heading text-sm font-semibold tracking-wide uppercase text-paper-fg transition-colors hover:border-accent hover:text-accent"
+        >
+          Adataim letöltése (JSON)
+        </a>
+      </div>
+
+      <AccountDangerZone />
     </div>
   );
 }

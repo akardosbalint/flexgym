@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/logo";
 import { Container } from "@/components/ui/container";
+import { CookiePreferencesButton } from "@/components/cookie-preferences-button";
 import { CONTACT, NAV_LINKS, OPENING_HOURS } from "@/lib/site-data";
 
 export function SiteFooter() {
@@ -8,7 +9,7 @@ export function SiteFooter() {
     <footer className="border-t border-ink-border bg-ink">
       <Container className="grid gap-10 py-14 md:grid-cols-3">
         <div>
-          <p className="font-display text-2xl leading-tight tracking-wide text-accent">
+          <p className="font-display text-2xl leading-tight tracking-wide text-accent-on-dark">
             FORGE GYM
             <br />
             WELCOME HOME
@@ -21,12 +22,12 @@ export function SiteFooter() {
           <ul className="mt-6 space-y-2 text-sm text-muted-dark">
             <li>{CONTACT.address}</li>
             <li>
-              <a href={`tel:${CONTACT.phone.replace(/\s/g, "")}`} className="hover:text-accent">
+              <a href={`tel:${CONTACT.phone.replace(/\s/g, "")}`} className="hover:text-accent-on-dark">
                 {CONTACT.phone}
               </a>
             </li>
             <li>
-              <a href={`mailto:${CONTACT.email}`} className="hover:text-accent">
+              <a href={`mailto:${CONTACT.email}`} className="hover:text-accent-on-dark">
                 {CONTACT.email}
               </a>
             </li>
@@ -40,7 +41,7 @@ export function SiteFooter() {
           <ul className="mt-4 space-y-2 text-sm">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className="text-ink-fg hover:text-accent">
+                <Link href={link.href} className="text-ink-fg hover:text-accent-on-dark">
                   {link.label}
                 </Link>
               </li>
@@ -70,12 +71,13 @@ export function SiteFooter() {
             <span>© {new Date().getFullYear()} Minden jog fenntartva.</span>
           </div>
           <div className="flex items-center gap-4">
-            <Link href="/adatkezelesi-tajekoztato" className="hover:text-accent">
+            <Link href="/adatkezelesi-tajekoztato" className="hover:text-accent-on-dark">
               Adatkezelési tájékoztató
             </Link>
-            <Link href="/aszf" className="hover:text-accent">
+            <Link href="/aszf" className="hover:text-accent-on-dark">
               ÁSZF
             </Link>
+            <CookiePreferencesButton />
             <span>QR-kódos beléptetés</span>
           </div>
         </Container>

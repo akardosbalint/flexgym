@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { ButtonEl } from "@/components/ui/button";
+import { PasswordInput } from "@/components/ui/password-input";
+import { trackEvent } from "@/lib/analytics-events";
 
 export function RegisterForm() {
   const router = useRouter();
@@ -42,6 +44,7 @@ export function RegisterForm() {
       return;
     }
 
+    trackEvent("register_completed");
     router.push("/dashboard");
     router.refresh();
   }
@@ -80,15 +83,7 @@ export function RegisterForm() {
         <label htmlFor="password" className="text-sm font-medium text-paper-fg">
           Jelszó
         </label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          required
-          minLength={8}
-          autoComplete="new-password"
-          className="mt-1.5 w-full border-b border-paper-border bg-transparent px-1 py-2.5 text-sm text-paper-fg outline-none focus:border-accent"
-        />
+        <PasswordInput id="password" name="password" required minLength={8} autoComplete="new-password" />
         <p className="mt-1 text-xs text-muted-light">Legalább 8 karakter.</p>
       </div>
 

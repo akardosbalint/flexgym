@@ -4,7 +4,10 @@ import { Container } from "@/components/ui/container";
 import { ContentCard } from "@/components/ui/content-card";
 import { RegisterForm } from "@/components/register-form";
 
-export const metadata: Metadata = { title: "Regisztráció | Forge Gym" };
+export const metadata: Metadata = {
+  title: "Regisztráció",
+  description: "Hozz létre fiókot a Forge Gymnél, és kövesd a bérletedet, belépéseidet a saját tagsági dashboardodon.",
+};
 
 export default function RegisterPage() {
   return (
@@ -24,7 +27,7 @@ export default function RegisterPage() {
 
           <p className="mt-6 text-sm text-muted-light">
             Már van fiókod?{" "}
-            <Link href="/bejelentkezes" className="font-medium text-accent hover:underline">
+            <Link href="/bejelentkezes" className="font-medium text-accent underline underline-offset-2 hover:no-underline">
               Belépés
             </Link>
           </p>

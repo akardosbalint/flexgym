@@ -20,7 +20,7 @@ export function PageHero({
       <Container className="relative py-16 sm:py-20">
         <Reveal>
           {eyebrow && (
-            <p className="font-heading text-sm font-semibold tracking-widest text-accent uppercase">
+            <p className="font-heading text-sm font-semibold tracking-widest text-accent-on-dark uppercase">
               {eyebrow}
             </p>
           )}

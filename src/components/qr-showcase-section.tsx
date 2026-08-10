@@ -28,7 +28,7 @@ export function QrShowcaseSection() {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <p className="font-heading text-sm font-semibold tracking-widest text-accent uppercase">
+          <p className="font-heading text-sm font-semibold tracking-widest text-accent-on-dark uppercase">
             Belépés, ahogy lennie kell
           </p>
           <h2 className="mt-3 font-display text-4xl leading-[1.02] tracking-wide text-white uppercase sm:text-5xl">
@@ -46,7 +46,7 @@ export function QrShowcaseSection() {
           <ol className="mt-8 space-y-5">
             {STEPS.map((step) => (
               <li key={step.n} className="flex gap-4">
-                <span className="font-display text-2xl text-accent">{step.n}</span>
+                <span className="font-display text-2xl text-accent-on-dark">{step.n}</span>
                 <div>
                   <p className="font-heading text-base font-semibold text-white">{step.title}</p>
                   <p className="mt-0.5 text-sm text-muted-dark">{step.description}</p>

@@ -38,7 +38,7 @@ export function Logo({ className, tone = "dark" }: { className?: string; tone?: 
           onDark ? "text-ink-fg" : "text-paper-fg",
         )}
       >
-        FORGE <span className="text-accent">GYM</span>
+        FORGE <span className={onDark ? "text-accent-on-dark" : "text-accent"}>GYM</span>
       </span>
     </Link>
   );

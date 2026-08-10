@@ -5,7 +5,10 @@ import { ContentCard } from "@/components/ui/content-card";
 import { ContactForm } from "@/components/contact-form";
 import { CONTACT, OPENING_HOURS } from "@/lib/site-data";
 
-export const metadata: Metadata = { title: "Kapcsolat | Forge Gym" };
+export const metadata: Metadata = {
+  title: "Kapcsolat",
+  description: "Elérhetőségeink, nyitvatartásunk és a Forge Gym Budapest pontos címe — írj nekünk, vagy hívj minket.",
+};
 
 export default function ContactPage() {
   return (

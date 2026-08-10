@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { auth } from "@/lib/auth";
 import { getDashboardData } from "@/lib/dashboard-data";
 
-export const metadata: Metadata = { title: "Előzmények | Forge Gym" };
+export const metadata: Metadata = { title: "Előzmények" };
 
 function formatHuf(value: number) {
   return `${value.toLocaleString("hu-HU")} Ft`;

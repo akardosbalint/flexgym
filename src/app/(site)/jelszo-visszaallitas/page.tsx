@@ -4,7 +4,11 @@ import { Container } from "@/components/ui/container";
 import { ContentCard } from "@/components/ui/content-card";
 import { ResetPasswordForm } from "@/components/reset-password-form";
 
-export const metadata: Metadata = { title: "Jelszó visszaállítása | Forge Gym" };
+export const metadata: Metadata = {
+  title: "Jelszó visszaállítása",
+  description: "Állítsd be új jelszavadat a Forge Gym fiókodhoz.",
+  robots: { index: false, follow: false },
+};
 
 export default function ResetPasswordPage() {
   return (

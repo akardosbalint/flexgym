@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ButtonEl } from "@/components/ui/button";
+import { PasswordInput } from "@/components/ui/password-input";
 
 export function ResetPasswordForm() {
   const router = useRouter();
@@ -73,15 +74,7 @@ export function ResetPasswordForm() {
         <label htmlFor="password" className="text-sm font-medium text-paper-fg">
           Új jelszó
         </label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          required
-          minLength={8}
-          autoComplete="new-password"
-          className="mt-1.5 w-full border-b border-paper-border bg-transparent px-1 py-2.5 text-sm text-paper-fg outline-none focus:border-accent"
-        />
+        <PasswordInput id="password" name="password" required minLength={8} autoComplete="new-password" />
         <p className="mt-1 text-xs text-muted-light">Legalább 8 karakter.</p>
       </div>
 
@@ -89,15 +82,7 @@ export function ResetPasswordForm() {
         <label htmlFor="confirm" className="text-sm font-medium text-paper-fg">
           Új jelszó megerősítése
         </label>
-        <input
-          id="confirm"
-          name="confirm"
-          type="password"
-          required
-          minLength={8}
-          autoComplete="new-password"
-          className="mt-1.5 w-full border-b border-paper-border bg-transparent px-1 py-2.5 text-sm text-paper-fg outline-none focus:border-accent"
-        />
+        <PasswordInput id="confirm" name="confirm" required minLength={8} autoComplete="new-password" />
       </div>
 
       {error && <p className="text-sm text-accent">{error}</p>}

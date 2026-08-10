@@ -5,7 +5,10 @@ import { Button } from "@/components/ui/button";
 import { ContentCard } from "@/components/ui/content-card";
 import { PRICING, FREE_PERKS } from "@/lib/site-data";
 
-export const metadata: Metadata = { title: "Árak | Forge Gym" };
+export const metadata: Metadata = {
+  title: "Árak",
+  description: "Forge Gym bérletek és árak Budapesten — alkalmi belépőtől az éves bérletig, diákkedvezménnyel.",
+};
 
 function formatHuf(value: number) {
   return `${value.toLocaleString("hu-HU")} Ft`;

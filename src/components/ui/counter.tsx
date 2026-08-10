@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useInView, animate } from "framer-motion";
+import { useInView, animate, useReducedMotion } from "framer-motion";
 
 export function Counter({
   value,
@@ -19,17 +19,18 @@ export function Counter({
   // horizontal hit zone too, which on narrow viewports can push
   // left/right-aligned content outside it entirely and it never triggers.
   const inView = useInView(ref, { once: true, margin: "-80px 0px -80px 0px" });
-  const [display, setDisplay] = useState(0);
+  const reducedMotion = useReducedMotion();
+  const [display, setDisplay] = useState(reducedMotion ? value : 0);
 
   useEffect(() => {
-    if (!inView) return;
+    if (!inView || reducedMotion) return;
     const controls = animate(0, value, {
       duration,
       ease: [0.21, 0.47, 0.32, 0.98],
       onUpdate: (v) => setDisplay(Math.round(v)),
     });
     return () => controls.stop();
-  }, [inView, value, duration]);
+  }, [inView, value, duration, reducedMotion]);
 
   return (
     <span ref={ref}>

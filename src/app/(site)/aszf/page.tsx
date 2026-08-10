@@ -4,7 +4,10 @@ import { Container } from "@/components/ui/container";
 import { ContentCard } from "@/components/ui/content-card";
 import { CONTACT } from "@/lib/site-data";
 
-export const metadata: Metadata = { title: "ÁSZF | Forge Gym" };
+export const metadata: Metadata = {
+  title: "ÁSZF",
+  description: "A Forge Gym Általános Szerződési Feltételei — tagsági, bérleti és beléptetési szabályzat.",
+};
 
 export default function TermsPage() {
   return (
@@ -57,17 +60,38 @@ export default function TermsPage() {
               <p>
                 A bérlet online vagy helyszíni megvásárlásával a felhasználó
                 és a Forge Gym között szerződés jön létre. A fizetés a
-                Weboldalon feltüntetett módokon (pl. bankkártya) történik;
-                Szép Kártyával jelenleg nem lehet fizetni.
+                Weboldalon feltüntetett módokon (bankkártya, a fizetési
+                szolgáltató — Stripe — hosztolt fizetési oldalán) történik;
+                Szép Kártyával jelenleg nem lehet fizetni. Az árak forintban,
+                bruttó (áfával növelt) összegben szerepelnek, rejtett
+                költség nélkül. A bankkártyás fizetéseknél az erős
+                ügyfél-hitelesítés (PSD2/SCA) követelményeit a fizetési
+                szolgáltató biztosítja.
+              </p>
+              <p>
+                <strong>A bérletek nem újulnak meg automatikusan.</strong> Egy
+                bérlet vagy alkalom megvásárlása egyszeri fizetés; a
+                lejáratot követően a folytatáshoz újabb vásárlás szükséges a
+                tagsági dashboardon. Rejtett, automatikus továbbszámlázás
+                nincs.
               </p>
             </Section>
 
-            <Section title="5. Elállás, lemondás">
+            <Section title="5. Elállás, lemondás, visszatérítés">
               <p>
-                A bérlet lemondásának, módosításának, illetve a felhasználó
-                elállási jogának feltételeit a hatályos fogyasztóvédelmi
-                jogszabályok, valamint a Forge Gym mindenkori házirendje
-                szabályozza.
+                Ha a felhasználó fogyasztónak minősül, a bérlet online
+                megvásárlásától számított 14 napon belül indoklás nélkül
+                elállhat a szerződéstől, feltéve, hogy a bérletet ez idő
+                alatt még nem vette igénybe (nem történt beléptetés). Ha a
+                felhasználó a 14 napos határidőn belül igénybe vette a
+                szolgáltatást, az elállási jog a már felhasznált mértékkel
+                arányosan csökken.
+              </p>
+              <p>
+                Elálláshoz, illetve visszatérítési igény esetén a{" "}
+                {CONTACT.email} címen lehet jelezni; jogos igény esetén a
+                visszatérítés az eredeti fizetési módra, a jelzéstől
+                számított 14 napon belül történik.
               </p>
             </Section>
 

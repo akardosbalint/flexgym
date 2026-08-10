@@ -7,7 +7,7 @@ import { MemberQrCard } from "@/components/dashboard/member-qr-card";
 import { StatCard } from "@/components/dashboard/stat-card";
 import { UsageChart } from "@/components/dashboard/usage-chart";
 
-export const metadata: Metadata = { title: "Dashboard | Forge Gym" };
+export const metadata: Metadata = { title: "Dashboard" };
 
 function formatDateTime(d: Date) {
   return d.toLocaleString("hu-HU", {
@@ -86,7 +86,7 @@ export default async function DashboardOverviewPage({
           <h2 className="font-heading text-lg font-semibold text-paper-fg">
             Legutóbbi belépések
           </h2>
-          <Link href="/dashboard/tortenet" className="text-sm font-medium text-accent hover:underline">
+          <Link href="/dashboard/tortenet" className="text-sm font-medium text-accent underline underline-offset-2 hover:no-underline">
             Összes megtekintése →
           </Link>
         </div>

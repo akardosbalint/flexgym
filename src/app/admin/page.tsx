@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { QrScanner } from "@/components/admin/qr-scanner";
 
-export const metadata: Metadata = { title: "Beléptetés | Forge Gym Admin" };
+export const metadata: Metadata = { title: "Beléptetés (Admin)" };
 
 export default async function AdminScanPage() {
   const recentCheckIns = await prisma.checkIn.findMany({

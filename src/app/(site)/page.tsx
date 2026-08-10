@@ -40,7 +40,7 @@ export default function HomePage() {
       <section className="brand-pattern clip-diagonal-down relative overflow-hidden bg-ink pb-24 sm:pb-32">
         <Container className="relative grid gap-12 pt-20 sm:pt-28 lg:grid-cols-2 lg:items-center">
           <div>
-            <p className="font-heading text-sm font-semibold tracking-widest text-accent uppercase">
+            <p className="font-heading text-sm font-semibold tracking-widest text-accent-on-dark uppercase">
               Forge Gym Budapest
             </p>
             <h1 className="mt-3 font-display text-6xl leading-[0.92] tracking-wide text-white uppercase [text-wrap:balance] sm:text-7xl">
@@ -138,7 +138,7 @@ export default function HomePage() {
       <section className="border-y border-ink-border bg-ink-2 py-20">
         <Container className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-center">
           <Reveal>
-            <p className="font-heading text-sm font-semibold tracking-widest text-accent uppercase">
+            <p className="font-heading text-sm font-semibold tracking-widest text-accent-on-dark uppercase">
               Edzőink
             </p>
             <h2 className="mt-2 font-display text-3xl tracking-wide text-white uppercase">
@@ -157,7 +157,7 @@ export default function HomePage() {
           <div className="grid grid-cols-3 gap-4 sm:grid-cols-5">
             {TRAINERS.slice(0, 5).map((trainer, i) => (
               <Reveal key={trainer.name} delay={i * 0.06} className="flex flex-col items-center gap-2 text-center">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-accent bg-ink font-display text-lg text-accent transition-transform duration-300 hover:scale-110 hover:bg-accent hover:text-white">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-accent bg-ink font-display text-lg text-accent-on-dark transition-transform duration-300 hover:scale-110 hover:bg-accent hover:text-white">
                   {trainer.name
                     .split(" ")
                     .map((p) => p[0])
@@ -220,7 +220,7 @@ export default function HomePage() {
       <section className="brand-pattern relative overflow-hidden bg-ink py-24">
         <Container className="relative flex flex-col items-center text-center">
           <Reveal>
-            <p className="font-heading text-sm font-semibold tracking-widest text-accent uppercase">
+            <p className="font-heading text-sm font-semibold tracking-widest text-accent-on-dark uppercase">
               Ne halogasd
             </p>
             <h2 className="mt-3 font-display text-4xl tracking-wide text-white uppercase sm:text-5xl">

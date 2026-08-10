@@ -96,7 +96,7 @@ export function MembershipCard({ membership }: { membership: Membership | null }
 
       <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-paper-border pt-5 text-sm">
         <span className="text-muted-light">Ár: {formatHuf(membership.priceHuf)}</span>
-        <Link href="/dashboard/berlet" className="font-semibold text-accent hover:underline">
+        <Link href="/dashboard/berlet" className="font-semibold text-accent underline underline-offset-2 hover:no-underline">
           Bérlet megújítása →
         </Link>
       </div>

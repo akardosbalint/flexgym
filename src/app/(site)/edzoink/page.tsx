@@ -5,7 +5,10 @@ import { Button } from "@/components/ui/button";
 import { ContentCard } from "@/components/ui/content-card";
 import { TrainersGrid } from "@/components/trainers-grid";
 
-export const metadata: Metadata = { title: "Edzőink | Forge Gym" };
+export const metadata: Metadata = {
+  title: "Edzőink",
+  description: "Ismerd meg a Forge Gym erőnléti, küzdősport és masszázs szakembereit, és találd meg a hozzád illő edzőt.",
+};
 
 export default function TrainersPage() {
   return (
@@ -26,7 +29,7 @@ export default function TrainersPage() {
               <h2 className="font-heading text-xl font-semibold uppercase">
                 Jelentkezés edzői pozícióba
               </h2>
-              <p className="mx-auto mt-2 max-w-md text-sm text-white/90">
+              <p className="mx-auto mt-2 max-w-md text-sm text-white">
                 Ha te is része szeretnél lenni a Forge Gym csapatának, írj nekünk
                 pár szót magadról és a szakterületedről.
               </p>

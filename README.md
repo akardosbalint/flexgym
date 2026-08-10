@@ -33,6 +33,19 @@ Built with Next.js (App Router), TypeScript, Tailwind CSS 4, NextAuth
   `src/lib/apple-wallet.ts`) and redirect to `/dashboard?walletError=...`
   with a friendly banner if the corresponding integration isn't
   configured, instead of crashing.
+- **Email** (password reset links, contact form submissions) sends through
+  Resend if `RESEND_API_KEY` is set (`src/lib/email.ts`); otherwise it logs
+  the content to the server console instead, so both flows still work
+  without a real provider configured.
+- **Analytics** (Vercel Analytics, and GA4 if `NEXT_PUBLIC_GA_MEASUREMENT_ID`
+  is set) only loads after a visitor opts into the "statisztikai cookie-k"
+  category in the cookie banner (`src/components/cookie-banner.tsx`,
+  `src/lib/cookie-consent.ts`) — never before, and never for the
+  "necessary only" choice.
+- **Privacy self-service**: a signed-in member can download every record
+  tied to their account (`GET /api/account/export`) or permanently delete
+  their account, password-confirmed (`POST /api/account/delete`), from
+  `/dashboard/profil` — the GDPR data-portability and erasure rights.
 
 ## Brand
 
@@ -56,6 +69,10 @@ npx prisma migrate dev
 npm run db:seed
 npm run dev
 ```
+
+Only `DATABASE_URL` and `AUTH_SECRET` are required to run the site locally —
+Stripe, Resend, the wallets, and analytics all degrade gracefully (see
+below) when their env vars are unset.
 
 Open http://localhost:3000.
 
@@ -119,14 +136,57 @@ Without these set, both wallet buttons still render — clicking them just
 redirects back to the dashboard with an on-page message instead of
 crashing.
 
+### Security headers & rate limiting
+
+`next.config.ts` sets a Content-Security-Policy plus HSTS/X-Frame-Options/
+X-Content-Type-Options/Referrer-Policy/Permissions-Policy on every response,
+and drops the `X-Powered-By` header. `src/lib/rate-limit.ts` is a small
+in-memory sliding-window limiter applied to `register`, `forgot-password`,
+`contact`, `account/delete`, and the NextAuth credentials `authorize()`
+callback — good enough for a single instance; swap for a shared store (e.g.
+Upstash Redis) if this ever runs across multiple serverless instances.
+
+### SEO
+
+`src/app/robots.ts` and `src/app/sitemap.ts` are generated from
+`NEXT_PUBLIC_SITE_URL` (set this once deployed — see `.env.example`). The
+root layout sets `metadataBase`, a title template, Open Graph/Twitter tags,
+and `LocalBusiness`/`WebSite` JSON-LD; `src/app/opengraph-image.tsx`
+generates the share-preview image with `next/og` (no image asset needed).
+Every public page has its own `title`/`description`; `/dashboard` and
+`/admin` are marked `noindex`.
+
+### Analytics setup (optional)
+
+- **Vercel Analytics** works with zero config once deployed on Vercel.
+- **GA4**: set `NEXT_PUBLIC_GA_MEASUREMENT_ID` in `.env`.
+
+Either way, nothing loads until a visitor accepts the "statisztikai
+cookie-k" category in the cookie banner — see `src/components/
+consented-analytics.tsx`. `src/lib/analytics-events.ts` exposes a small
+`trackEvent()` helper used for conversions like `register_completed`.
+
+## Testing
+
+```bash
+npm test        # Vitest unit tests (src/**/*.test.ts)
+npm run lint     # ESLint
+npx tsc --noEmit # Type check
+```
+
+`.github/workflows/ci.yml` runs all three plus `npm run build` on every
+pull request; `.github/dependabot.yml` keeps dependencies patched weekly.
+
 ## Deploying (Vercel)
 
 1. Create a Postgres database (Vercel Postgres, Neon, Supabase, ...) and copy
    its connection string.
 2. In the Vercel project, set the environment variables from `.env.example`:
    `DATABASE_URL`, `AUTH_SECRET` (generate with `npx auth secret`),
-   `AUTH_TRUSTED_HOST=true`, `STRIPE_SECRET_KEY`, and optionally the
-   Google/Apple Wallet variables described above.
+   `AUTH_TRUSTED_HOST=true`, `NEXT_PUBLIC_SITE_URL` (the real domain, for
+   the sitemap/canonical/OG tags), `STRIPE_SECRET_KEY`, and optionally
+   `RESEND_API_KEY`, `NEXT_PUBLIC_GA_MEASUREMENT_ID`, and the Google/Apple
+   Wallet variables described above.
 3. In the Stripe dashboard, add a webhook endpoint pointing at
    `https://<your-domain>/api/webhooks/stripe` listening for
    `checkout.session.completed`, and put its signing secret in
@@ -151,6 +211,14 @@ crashing.
   used by both the checkout action and the Stripe webhook.
 - `src/lib/google-wallet.ts` / `src/lib/apple-wallet.ts` — build the
   "Add to Google/Apple Wallet" pass for a member's check-in code.
+- `src/lib/email.ts` — Resend wrapper with a console-log fallback.
+- `src/lib/rate-limit.ts` — in-memory rate limiter used by the auth/contact/
+  account-deletion routes.
+- `src/lib/cookie-consent.ts` / `src/components/cookie-banner.tsx` —
+  granular ("necessary" vs "statisztikai") cookie consent, re-openable any
+  time via the footer's "Cookie beállítások" link.
+- `src/app/api/account/export`, `src/app/api/account/delete` — GDPR
+  data-portability and erasure self-service routes.
 - `prisma/schema.prisma` — data model (`User` incl. `role`/`checkInCode`,
   `Membership`, `CheckIn` incl. `scannedById`, `Purchase` incl.
   `stripeSessionId`).
@@ -162,4 +230,5 @@ crashing.
 - `npm run dev` — start the dev server.
 - `npm run build` / `npm run start` — production build and start.
 - `npm run lint` — ESLint.
+- `npm test` — Vitest unit tests.
 - `npm run db:seed` — reset and reseed the database with demo data.

@@ -3,7 +3,10 @@ import { PageHero } from "@/components/page-hero";
 import { Container } from "@/components/ui/container";
 import { ContentCard } from "@/components/ui/content-card";
 
-export const metadata: Metadata = { title: "Galéria | Forge Gym" };
+export const metadata: Metadata = {
+  title: "Galéria",
+  description: "Nézd meg a Forge Gym termeit, gépparkját és hangulatát képeken keresztül.",
+};
 
 const GALLERY_ITEMS = [
   { title: "Testépítő terem", tall: true },

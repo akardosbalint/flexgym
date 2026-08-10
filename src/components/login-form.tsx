@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { ButtonEl } from "@/components/ui/button";
+import { PasswordInput } from "@/components/ui/password-input";
 
 export function LoginForm() {
   const router = useRouter();
@@ -59,18 +60,11 @@ export function LoginForm() {
           <label htmlFor="password" className="text-sm font-medium text-paper-fg">
             Jelszó
           </label>
-          <Link href="/elfelejtett-jelszo" className="text-xs text-accent hover:underline">
+          <Link href="/elfelejtett-jelszo" className="text-xs text-accent underline underline-offset-2 hover:no-underline">
             Elfelejtetted?
           </Link>
         </div>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          required
-          autoComplete="current-password"
-          className="mt-1.5 w-full border-b border-paper-border bg-transparent px-1 py-2.5 text-sm text-paper-fg outline-none focus:border-accent"
-        />
+        <PasswordInput id="password" name="password" required autoComplete="current-password" />
       </div>
 
       {error && <p className="text-sm text-accent">{error}</p>}

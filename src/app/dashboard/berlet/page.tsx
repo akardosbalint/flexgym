@@ -5,7 +5,7 @@ import { MembershipCard } from "@/components/dashboard/membership-card";
 import { PRICING } from "@/lib/site-data";
 import { startCheckout } from "./actions";
 
-export const metadata: Metadata = { title: "Bérletem | Forge Gym" };
+export const metadata: Metadata = { title: "Bérletem" };
 
 function formatHuf(value: number) {
   return `${value.toLocaleString("hu-HU")} Ft`;

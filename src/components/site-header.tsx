@@ -18,6 +18,9 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-ink-border bg-ink">
+      <a href="#main-content" className="skip-link">
+        Ugrás a tartalomra
+      </a>
       <div className="hidden border-b border-ink-border/70 text-xs text-muted-dark lg:block">
         <Container className="flex items-center justify-between py-2">
           <div className="flex items-center gap-6">
@@ -40,7 +43,7 @@ export function SiteHeader() {
                 href={link.href}
                 className={clsx(
                   "font-heading text-sm font-medium tracking-wide uppercase transition-colors",
-                  active ? "text-accent" : "text-ink-fg hover:text-accent",
+                  active ? "text-accent-on-dark" : "text-ink-fg hover:text-accent-on-dark",
                 )}
               >
                 {link.label}
@@ -107,7 +110,7 @@ export function SiteHeader() {
                 className={clsx(
                   "rounded-sm px-3 py-2.5 font-heading text-sm font-medium tracking-wide uppercase",
                   pathname === link.href
-                    ? "bg-ink-2 text-accent"
+                    ? "bg-ink-2 text-accent-on-dark"
                     : "text-ink-fg hover:bg-ink-2",
                 )}
               >
@@ -149,7 +152,7 @@ function ButtonSignOut() {
     <button
       type="button"
       onClick={() => signOut({ callbackUrl: "/" })}
-      className="inline-flex items-center justify-center gap-2 rounded-sm border border-white/30 px-5 py-2.5 font-heading text-sm font-semibold tracking-wide uppercase text-white transition-colors hover:border-accent hover:text-accent"
+      className="inline-flex items-center justify-center gap-2 rounded-sm border border-white/30 px-5 py-2.5 font-heading text-sm font-semibold tracking-wide uppercase text-white transition-colors hover:border-accent hover:text-accent-on-dark"
     >
       Kilépés
     </button>
