@@ -29,6 +29,7 @@ export default async function AdminScanPage() {
           memberName: c.user.name,
           checkedInAt: c.checkedInAt.toISOString(),
           staffName: c.scannedBy?.name ?? null,
+          membershipValid: c.membershipValid,
         }))}
       />
     </div>

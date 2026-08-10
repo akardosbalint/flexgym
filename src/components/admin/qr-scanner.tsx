@@ -17,6 +17,7 @@ type RecentCheckIn = {
   memberName: string;
   checkedInAt: string;
   staffName: string | null;
+  membershipValid: boolean | null;
 };
 
 const RESULT_DISPLAY_MS = 3000;
@@ -72,6 +73,7 @@ export function QrScanner({ initialRecent }: { initialRecent: RecentCheckIn[] })
             memberName: body.member.name,
             checkedInAt: body.checkedInAt,
             staffName: null,
+            membershipValid: body.membership.valid,
           },
           ...prev,
         ].slice(0, 15));
@@ -227,14 +229,27 @@ export function QrScanner({ initialRecent }: { initialRecent: RecentCheckIn[] })
         ) : (
           <ul className="mt-4 space-y-3">
             {recent.map((c) => (
-              <li key={c.id} className="flex items-center justify-between border-b border-paper-border pb-3 text-sm last:border-0 last:pb-0">
-                <div>
+              <li key={c.id} className="flex items-center justify-between gap-3 border-b border-paper-border pb-3 text-sm last:border-0 last:pb-0">
+                <div className="min-w-0">
                   <p className="font-medium text-paper-fg">{c.memberName}</p>
                   {c.staffName && <p className="text-xs text-muted-light">Beolvasta: {c.staffName}</p>}
                 </div>
-                <span className="text-xs text-muted-light">
-                  {new Date(c.checkedInAt).toLocaleTimeString("hu-HU", { hour: "2-digit", minute: "2-digit" })}
-                </span>
+                <div className="flex shrink-0 flex-col items-end gap-1">
+                  {c.membershipValid !== null && (
+                    <span
+                      className={`rounded-full px-2.5 py-0.5 text-[11px] font-semibold tracking-wide uppercase ${
+                        c.membershipValid
+                          ? "bg-emerald-500/15 text-emerald-700"
+                          : "bg-accent/15 text-accent"
+                      }`}
+                    >
+                      {c.membershipValid ? "Sikeres" : "Sikertelen"}
+                    </span>
+                  )}
+                  <span className="text-xs text-muted-light">
+                    {new Date(c.checkedInAt).toLocaleTimeString("hu-HU", { hour: "2-digit", minute: "2-digit" })}
+                  </span>
+                </div>
               </li>
             ))}
           </ul>

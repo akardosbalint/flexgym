@@ -41,20 +41,20 @@ export async function POST(request: Request) {
 
   const now = new Date();
 
-  const [, activeMembership] = await Promise.all([
-    prisma.checkIn.create({
-      data: {
-        userId: member.id,
-        scannedById: session.user.id,
-        checkedInAt: now,
-        gate: "Forge Gym Budapest - Fő bejárat",
-      },
-    }),
-    prisma.membership.findFirst({
-      where: { userId: member.id, status: "ACTIVE", endDate: { gte: now } },
-      orderBy: { endDate: "desc" },
-    }),
-  ]);
+  const activeMembership = await prisma.membership.findFirst({
+    where: { userId: member.id, status: "ACTIVE", endDate: { gte: now } },
+    orderBy: { endDate: "desc" },
+  });
+
+  await prisma.checkIn.create({
+    data: {
+      userId: member.id,
+      scannedById: session.user.id,
+      checkedInAt: now,
+      gate: "Forge Gym Budapest - Fő bejárat",
+      membershipValid: Boolean(activeMembership),
+    },
+  });
 
   return NextResponse.json({
     ok: true,

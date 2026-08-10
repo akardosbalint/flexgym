@@ -79,15 +79,20 @@ model Membership {
 }
 
 model CheckIn {
-  id          String   @id @default(cuid())
-  userId      String
-  user        User     @relation("MemberCheckIns", fields: [userId], references: [id], onDelete: Cascade)
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation("MemberCheckIns", fields: [userId], references: [id], onDelete: Cascade)
   /// Staff member who scanned the member's QR code, if known.
-  scannedById String?
-  scannedBy   User?    @relation("StaffScans", fields: [scannedById], references: [id], onDelete: SetNull)
-  checkedInAt DateTime
-  durationMin Int?
-  gate        String   @default("Forge Gym Budapest - Fő bejárat")
+  scannedById     String?
+  scannedBy       User?    @relation("StaffScans", fields: [scannedById], references: [id], onDelete: SetNull)
+  checkedInAt     DateTime
+  durationMin     Int?
+  gate            String   @default("Forge Gym Budapest - Fő bejárat")
+  /// Whether the member had an active membership at the moment of this
+  /// check-in - recorded at scan time so the log reflects what was true
+  /// then, not whatever the membership's current status happens to be.
+  /// Null only for rows created before this field existed.
+  membershipValid Boolean?
 
   @@index([userId])
   @@index([scannedById])

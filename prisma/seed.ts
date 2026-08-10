@@ -173,6 +173,7 @@ async function main() {
         checkedInAt: d,
         durationMin: c.duration,
         gate: "Forge Gym Budapest - Fő bejárat",
+        membershipValid: true,
       };
     }),
   });
