@@ -35,7 +35,7 @@ export default function LoginPage() {
 
           <div className="mt-6 rounded-md bg-paper-2 p-4 text-xs text-muted-light">
             <p className="font-semibold text-paper-fg">Demo admin belépés (beléptetés)</p>
-            <p className="mt-1">gym-demo-admin@gym.miepitettuk.hu / forgegym123</p>
+            <p className="mt-1">demo@gym.miepitettuk.hu / DemoAdmin123</p>
           </div>
         </ContentCard>
       </Container>
