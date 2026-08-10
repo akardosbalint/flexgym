@@ -1,12 +1,23 @@
 import QRCode from "qrcode";
 import { checkInCodeToQrContent, formatCheckInCode } from "@/lib/qr-checkin";
+import { getSiteUrl } from "@/lib/site-url";
+import { QrSaveButton } from "@/components/dashboard/qr-save-button";
 
-export async function MemberQrCard({ checkInCode }: { checkInCode: string }) {
+export async function MemberQrCard({
+  checkInCode,
+  memberName,
+  memberEmail,
+}: {
+  checkInCode: string;
+  memberName: string;
+  memberEmail: string;
+}) {
   const dataUrl = await QRCode.toDataURL(checkInCodeToQrContent(checkInCode), {
     margin: 1,
-    width: 220,
+    width: 320,
     color: { dark: "#18181b", light: "#ffffff" },
   });
+  const siteHost = new URL(getSiteUrl()).host;
 
   return (
     <div className="flex flex-col items-center rounded-lg border border-paper-border bg-paper p-6 text-center">
@@ -28,30 +39,9 @@ export async function MemberQrCard({ checkInCode }: { checkInCode: string }) {
         Mutasd ezt a recepción belépéskor — a munkatárs beolvassa a kamerával.
       </p>
 
-      <div className="mt-4 flex w-full flex-col gap-2">
-        <a
-          href="/api/wallet/google"
-          className="flex items-center justify-center gap-2 rounded-md bg-ink px-4 py-2.5 text-xs font-semibold tracking-wide text-white uppercase transition-colors hover:bg-ink-2"
-        >
-          <WalletIcon /> Hozzáadás Google Wallethez
-        </a>
-        <a
-          href="/api/wallet/apple"
-          className="flex items-center justify-center gap-2 rounded-md border border-paper-border px-4 py-2.5 text-xs font-semibold tracking-wide text-paper-fg uppercase transition-colors hover:border-accent hover:text-accent"
-        >
-          <WalletIcon /> Hozzáadás Apple Wallethez
-        </a>
+      <div className="mt-4 w-full">
+        <QrSaveButton qrDataUrl={dataUrl} memberName={memberName} memberEmail={memberEmail} siteHost={siteHost} />
       </div>
     </div>
-  );
-}
-
-function WalletIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <rect x="3" y="6" width="18" height="13" rx="2" stroke="currentColor" strokeWidth="1.6" />
-      <path d="M3 10h18" stroke="currentColor" strokeWidth="1.6" />
-      <path d="M16 14.5h2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-    </svg>
   );
 }

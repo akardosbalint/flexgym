@@ -18,12 +18,7 @@ function formatDateTime(d: Date) {
   });
 }
 
-export default async function DashboardOverviewPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ walletError?: string }>;
-}) {
-  const { walletError } = await searchParams;
+export default async function DashboardOverviewPage() {
   const session = await auth();
   const userId = session!.user.id;
   const { checkInCode, activeMembership, checkIns, checkInsLast30Days, avgDurationMin, weeklyUsage } =
@@ -38,16 +33,12 @@ export default async function DashboardOverviewPage({
         <p className="mt-1 text-muted-light">Itt a heti összefoglalód és az aktuális bérleted.</p>
       </div>
 
-      {walletError && (
-        <div className="rounded-lg border border-accent/40 bg-accent/10 p-4 text-sm text-paper-fg">
-          {walletError === "apple"
-            ? "Az Apple Wallethez adás most nem elérhető — a funkció konfigurálása még folyamatban van."
-            : "A Google Wallethez adás most nem elérhető — a funkció konfigurálása még folyamatban van."}
-        </div>
-      )}
-
       <div className="grid gap-4 lg:grid-cols-[280px_1fr]">
-        <MemberQrCard checkInCode={checkInCode} />
+        <MemberQrCard
+          checkInCode={checkInCode}
+          memberName={session!.user.name ?? "Tag"}
+          memberEmail={session!.user.email ?? ""}
+        />
         <MembershipCard membership={activeMembership} />
       </div>
 

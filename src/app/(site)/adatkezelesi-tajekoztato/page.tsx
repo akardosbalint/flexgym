@@ -65,13 +65,6 @@ export default function PrivacyPolicyPage() {
                   megadott kártyát a megújuláskor is jogosult megterhelni.
                 </li>
                 <li>
-                  <strong>Digitális tárca (Apple/Google Wallet):</strong> ha a
-                  belépőkódodat hozzáadod a telefonod tárcájához, az ehhez
-                  szükséges adatokat (neved, belépőkódod) a Wallet-szolgáltató
-                  (Apple, Google) is kezeli, saját adatkezelési
-                  szabályzata szerint.
-                </li>
-                <li>
                   <strong>Technikai adatok:</strong> cookie-k útján gyűjtött,
                   a Weboldal működéséhez szükséges, illetve — kizárólag
                   hozzájárulásod esetén — látogatottságmérési adatok (lásd
@@ -120,7 +113,6 @@ export default function PrivacyPolicyPage() {
               <ul className="list-disc space-y-1 pl-5">
                 <li><strong>Stripe</strong> — bankkártyás fizetések lebonyolítása.</li>
                 <li><strong>Google Workspace</strong> — tranzakciós emailek (jelszó-visszaállítás, kapcsolatfelvétel) kézbesítése.</li>
-                <li><strong>Apple, Google</strong> — a belépőkód digitális tárcába mentése esetén, kizárólag ha az érintett ezt kezdeményezi.</li>
                 <li>Tárhely- és adatbázis-szolgáltató a Weboldal üzemeltetéséhez.</li>
                 <li>Hozzájárulás esetén statisztikai/elemző szolgáltató (lásd 6. pont).</li>
               </ul>

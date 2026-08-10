@@ -25,8 +25,8 @@ function getTransport() {
  * configured; otherwise logs the content instead of sending, so
  * password-reset links and contact messages are still visible (e.g. in
  * server logs) during local dev/before a real mailbox is wired up. Mirrors
- * the same lazy, graceful-degradation pattern used for Stripe/Google
- * Wallet/Apple Wallet in this codebase.
+ * the same lazy, graceful-degradation pattern used for Stripe in this
+ * codebase.
  */
 export async function sendEmail({
   to,
