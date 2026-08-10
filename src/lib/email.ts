@@ -1,22 +1,32 @@
 import "server-only";
-import { Resend } from "resend";
+import nodemailer, { type Transporter } from "nodemailer";
 
-let cached: Resend | null = null;
+let cached: Transporter | null = null;
 
-function getResend() {
+function getTransport() {
   if (cached) return cached;
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) return null;
-  cached = new Resend(apiKey);
+
+  const user = process.env.GOOGLE_WORKSPACE_EMAIL;
+  const pass = process.env.GOOGLE_WORKSPACE_APP_PASSWORD;
+  if (!user || !pass) return null;
+
+  cached = nodemailer.createTransport({
+    host: process.env.GOOGLE_WORKSPACE_SMTP_HOST ?? "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: { user, pass },
+  });
   return cached;
 }
 
 /**
- * Sends a transactional email if RESEND_API_KEY is configured; otherwise
- * logs the content instead of sending, so password-reset links and contact
- * messages are still visible (e.g. in server logs) during local dev/before
- * a real provider is wired up. Mirrors the same lazy, graceful-degradation
- * pattern used for Stripe/Google Wallet/Apple Wallet in this codebase.
+ * Sends a transactional email through a Google Workspace mailbox (SMTP +
+ * app password) if GOOGLE_WORKSPACE_EMAIL/GOOGLE_WORKSPACE_APP_PASSWORD are
+ * configured; otherwise logs the content instead of sending, so
+ * password-reset links and contact messages are still visible (e.g. in
+ * server logs) during local dev/before a real mailbox is wired up. Mirrors
+ * the same lazy, graceful-degradation pattern used for Stripe/Google
+ * Wallet/Apple Wallet in this codebase.
  */
 export async function sendEmail({
   to,
@@ -27,19 +37,22 @@ export async function sendEmail({
   subject: string;
   text: string;
 }) {
-  const resend = getResend();
-  const from = process.env.RESEND_FROM_EMAIL ?? "Forge Gym <onboarding@resend.dev>";
+  const transport = getTransport();
+  const from = process.env.GOOGLE_WORKSPACE_EMAIL
+    ? `Forge Gym <${process.env.GOOGLE_WORKSPACE_EMAIL}>`
+    : "Forge Gym <no-reply@forgegym.hu>";
 
-  if (!resend) {
-    console.log(`[email] RESEND_API_KEY nincs beállítva - email a következő helyett naplózva:`);
+  if (!transport) {
+    console.log(`[email] GOOGLE_WORKSPACE_EMAIL / GOOGLE_WORKSPACE_APP_PASSWORD nincs beállítva - email a következő helyett naplózva:`);
     console.log(`  To: ${to}\n  Subject: ${subject}\n  ${text}`);
     return { delivered: false as const };
   }
 
-  const { error } = await resend.emails.send({ from, to, subject, text });
-  if (error) {
-    console.error("[email] Resend küldési hiba:", error);
+  try {
+    await transport.sendMail({ from, to, subject, text });
+    return { delivered: true as const };
+  } catch (err) {
+    console.error("[email] Google Workspace SMTP küldési hiba:", err);
     return { delivered: false as const };
   }
-  return { delivered: true as const };
 }

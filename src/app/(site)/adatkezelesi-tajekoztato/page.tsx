@@ -117,7 +117,7 @@ export default function PrivacyPolicyPage() {
               <p>Az adatkezelés során az alábbi adatfeldolgozókat/önálló adatkezelőket vesszük igénybe:</p>
               <ul className="list-disc space-y-1 pl-5">
                 <li><strong>Stripe</strong> — bankkártyás fizetések lebonyolítása.</li>
-                <li><strong>Resend</strong> — tranzakciós emailek (jelszó-visszaállítás, kapcsolatfelvétel) kézbesítése.</li>
+                <li><strong>Google Workspace</strong> — tranzakciós emailek (jelszó-visszaállítás, kapcsolatfelvétel) kézbesítése.</li>
                 <li><strong>Apple, Google</strong> — a belépőkód digitális tárcába mentése esetén, kizárólag ha az érintett ezt kezdeményezi.</li>
                 <li>Tárhely- és adatbázis-szolgáltató a Weboldal üzemeltetéséhez.</li>
                 <li>Hozzájárulás esetén statisztikai/elemző szolgáltató (lásd 6. pont).</li>

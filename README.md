@@ -33,10 +33,11 @@ Built with Next.js (App Router), TypeScript, Tailwind CSS 4, NextAuth
   `src/lib/apple-wallet.ts`) and redirect to `/dashboard?walletError=...`
   with a friendly banner if the corresponding integration isn't
   configured, instead of crashing.
-- **Email** (password reset links, contact form submissions) sends through
-  Resend if `RESEND_API_KEY` is set (`src/lib/email.ts`); otherwise it logs
-  the content to the server console instead, so both flows still work
-  without a real provider configured.
+- **Email** (password reset links, contact form submissions) sends through a
+  Google Workspace mailbox via SMTP if `GOOGLE_WORKSPACE_EMAIL` /
+  `GOOGLE_WORKSPACE_APP_PASSWORD` are set (`src/lib/email.ts`); otherwise it
+  logs the content to the server console instead, so both flows still work
+  without a real mailbox configured.
 - **Analytics** (Vercel Analytics, and GA4 if `NEXT_PUBLIC_GA_MEASUREMENT_ID`
   is set) only loads after a visitor opts into the "statisztikai cookie-k"
   category in the cookie banner (`src/components/cookie-banner.tsx`,
@@ -71,7 +72,7 @@ npm run dev
 ```
 
 Only `DATABASE_URL` and `AUTH_SECRET` are required to run the site locally —
-Stripe, Resend, the wallets, and analytics all degrade gracefully (see
+Stripe, Google Workspace email, the wallets, and analytics all degrade gracefully (see
 below) when their env vars are unset.
 
 Open http://localhost:3000.
@@ -97,6 +98,28 @@ Open http://localhost:3000.
 
 Without `STRIPE_SECRET_KEY` set, the rest of the site still works — only
 starting a checkout fails, gracefully, with an on-page error message.
+
+### Google Workspace email setup
+
+Password-reset links and contact-form messages send through a Google
+Workspace mailbox over SMTP:
+
+1. In the Workspace account that should send mail (e.g. `no-reply@forgegym.hu`),
+   turn on 2-Step Verification: https://myaccount.google.com/security
+   (if the org blocks this, a Workspace admin needs to allow it under
+   Admin console → Security → 2-Step Verification).
+2. Create an app password for that account:
+   https://myaccount.google.com/apppasswords — pick "Mail" as the app.
+3. Fill in `.env`:
+   - `GOOGLE_WORKSPACE_EMAIL` — the full mailbox address.
+   - `GOOGLE_WORKSPACE_APP_PASSWORD` — the 16-character app password
+     (remove the spaces Google displays it with).
+4. Submit the contact form on `/kapcsolat`, or request a password reset on
+   `/elfelejtett-jelszo` — the email should arrive from that mailbox.
+
+Without these set, both flows still work — the email content is logged to
+the server console instead of sent, so nothing crashes or silently drops
+the message.
 
 ### Google Wallet setup
 
@@ -185,8 +208,9 @@ pull request; `.github/dependabot.yml` keeps dependencies patched weekly.
    `DATABASE_URL`, `AUTH_SECRET` (generate with `npx auth secret`),
    `AUTH_TRUSTED_HOST=true`, `NEXT_PUBLIC_SITE_URL` (the real domain, for
    the sitemap/canonical/OG tags), `STRIPE_SECRET_KEY`, and optionally
-   `RESEND_API_KEY`, `NEXT_PUBLIC_GA_MEASUREMENT_ID`, and the Google/Apple
-   Wallet variables described above.
+   `GOOGLE_WORKSPACE_EMAIL` / `GOOGLE_WORKSPACE_APP_PASSWORD`,
+   `NEXT_PUBLIC_GA_MEASUREMENT_ID`, and the Google/Apple Wallet variables
+   described above.
 3. In the Stripe dashboard, add a webhook endpoint pointing at
    `https://<your-domain>/api/webhooks/stripe` listening for
    `checkout.session.completed`, and put its signing secret in
@@ -211,7 +235,7 @@ pull request; `.github/dependabot.yml` keeps dependencies patched weekly.
   used by both the checkout action and the Stripe webhook.
 - `src/lib/google-wallet.ts` / `src/lib/apple-wallet.ts` — build the
   "Add to Google/Apple Wallet" pass for a member's check-in code.
-- `src/lib/email.ts` — Resend wrapper with a console-log fallback.
+- `src/lib/email.ts` — Google Workspace SMTP (Nodemailer) wrapper with a console-log fallback.
 - `src/lib/rate-limit.ts` — in-memory rate limiter used by the auth/contact/
   account-deletion routes.
 - `src/lib/cookie-consent.ts` / `src/components/cookie-banner.tsx` —
