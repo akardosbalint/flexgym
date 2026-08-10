@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { auth } from "@/lib/auth";
 import { getDashboardData } from "@/lib/dashboard-data";
 import { MembershipCard } from "@/components/dashboard/membership-card";
-import { PRICING } from "@/lib/site-data";
+import { MEMBERSHIP_PLANS } from "@/lib/membership-plans";
 import { startCheckout } from "./actions";
 
 export const metadata: Metadata = { title: "Bérletem" };
@@ -48,8 +48,9 @@ export default async function MembershipPage({
       )}
       {error && (
         <div className="rounded-lg border border-accent/40 bg-accent/10 p-4 text-sm text-paper-fg">
-          Nem sikerült elindítani a fizetést. Próbáld újra, vagy jelezd
-          nekünk, ha a hiba továbbra is fennáll.
+          {error === "elofizetes_kezelese_sikertelen"
+            ? "Nem sikerült megnyitni az előfizetés-kezelőt. Próbáld újra, vagy jelezd nekünk, ha a hiba továbbra is fennáll."
+            : "Nem sikerült elindítani a fizetést. Próbáld újra, vagy jelezd nekünk, ha a hiba továbbra is fennáll."}
         </div>
       )}
 
@@ -65,8 +66,8 @@ export default async function MembershipPage({
           aktiválódik.
         </p>
 
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {PRICING.map((plan) => (
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {MEMBERSHIP_PLANS.map((plan) => (
             <div
               key={plan.name}
               className="flex flex-col justify-between rounded-lg border border-paper-border bg-paper p-6"
@@ -76,9 +77,11 @@ export default async function MembershipPage({
                   {plan.name}
                 </h3>
                 <p className="mt-2 font-heading text-2xl font-bold text-accent">
-                  {formatHuf(plan.adult)}
+                  {formatHuf(plan.priceHuf)}
                 </p>
-                <p className="mt-1 text-xs text-muted-light">Érvényesség: {plan.validity}</p>
+                <p className="mt-1 text-xs text-muted-light">
+                  {plan.kind === "recurring" ? `Automatikusan megújul: ${plan.cadenceLabel}` : "Egyszeri vásárlás"}
+                </p>
               </div>
               <form action={startCheckout} className="mt-5">
                 <input type="hidden" name="plan" value={plan.name} />

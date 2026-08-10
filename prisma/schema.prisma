@@ -17,15 +17,18 @@ enum UserRole {
 }
 
 model User {
-  id           String   @id @default(cuid())
-  name         String
-  email        String   @unique
-  passwordHash String
-  phone        String?
-  role         UserRole @default(MEMBER)
+  id               String   @id @default(cuid())
+  name             String
+  email            String   @unique
+  passwordHash     String
+  phone            String?
+  role             UserRole @default(MEMBER)
   /// Opaque token encoded in the member's personal check-in QR code.
-  checkInCode  String   @unique
-  createdAt    DateTime @default(now())
+  checkInCode      String   @unique
+  createdAt        DateTime @default(now())
+  /// Reused across checkouts/subscriptions so renewals, invoices, and the
+  /// Stripe Billing Portal all see one customer history.
+  stripeCustomerId String?  @unique
 
   memberships         Membership[]
   checkIns            CheckIn[]            @relation("MemberCheckIns")
@@ -53,31 +56,38 @@ enum MembershipStatus {
 }
 
 model Membership {
-  id           String           @id @default(cuid())
-  userId       String
-  user         User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  name         String
-  totalEntries Int?
-  usedEntries  Int              @default(0)
-  startDate    DateTime
-  endDate      DateTime
-  status       MembershipStatus @default(ACTIVE)
-  priceHuf     Int
-  purchasedAt  DateTime         @default(now())
+  id                   String           @id @default(cuid())
+  userId               String
+  user                 User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name                 String
+  totalEntries         Int?
+  usedEntries          Int              @default(0)
+  startDate            DateTime
+  endDate              DateTime
+  status               MembershipStatus @default(ACTIVE)
+  priceHuf             Int
+  purchasedAt          DateTime         @default(now())
+  /// Set for auto-renewing plans (Havi/Negyedéves/Éves); null for the
+  /// one-time Alkalmi pass. endDate is kept in sync with Stripe's current
+  /// billing period via the subscription webhooks.
+  stripeSubscriptionId String?          @unique
+  /// True once the member cancels via the Stripe Billing Portal - still
+  /// active until endDate, just won't renew.
+  cancelAtPeriodEnd    Boolean          @default(false)
 
   @@index([userId])
 }
 
 model CheckIn {
-  id            String   @id @default(cuid())
-  userId        String
-  user          User     @relation("MemberCheckIns", fields: [userId], references: [id], onDelete: Cascade)
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation("MemberCheckIns", fields: [userId], references: [id], onDelete: Cascade)
   /// Staff member who scanned the member's QR code, if known.
-  scannedById   String?
-  scannedBy     User?    @relation("StaffScans", fields: [scannedById], references: [id], onDelete: SetNull)
-  checkedInAt   DateTime
-  durationMin   Int?
-  gate          String   @default("Forge Gym Budapest - Fő bejárat")
+  scannedById String?
+  scannedBy   User?    @relation("StaffScans", fields: [scannedById], references: [id], onDelete: SetNull)
+  checkedInAt DateTime
+  durationMin Int?
+  gate        String   @default("Forge Gym Budapest - Fő bejárat")
 
   @@index([userId])
   @@index([scannedById])
@@ -99,6 +109,10 @@ model Purchase {
   method          String         @default("Bankkártya")
   status          PurchaseStatus @default(PAID)
   stripeSessionId String?        @unique
+  /// Set for recurring-plan renewal charges (each billing cycle has its own
+  /// invoice); null for the initial checkout, which is keyed by
+  /// stripeSessionId instead.
+  stripeInvoiceId String?        @unique
   createdAt       DateTime       @default(now())
 
   @@index([userId])

@@ -3,11 +3,12 @@ import { PageHero } from "@/components/page-hero";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { ContentCard } from "@/components/ui/content-card";
-import { PRICING, FREE_PERKS } from "@/lib/site-data";
+import { FREE_PERKS } from "@/lib/site-data";
+import { MEMBERSHIP_PLANS } from "@/lib/membership-plans";
 
 export const metadata: Metadata = {
   title: "Árak",
-  description: "Forge Gym bérletek és árak Budapesten — alkalmi belépőtől az éves bérletig, diákkedvezménnyel.",
+  description: "Forge Gym bérletek és árak Budapesten — alkalmi belépőtől az éves bérletig.",
 };
 
 function formatHuf(value: number) {
@@ -63,20 +64,16 @@ export default function PricingPage() {
                 <thead className="bg-paper-2 text-xs tracking-widest text-muted-light uppercase">
                   <tr>
                     <th className="px-5 py-4 font-heading font-semibold">Bérlet</th>
-                    <th className="px-5 py-4 font-heading font-semibold">Felnőtt</th>
-                    <th className="px-5 py-4 font-heading font-semibold">Diák</th>
-                    <th className="px-5 py-4 font-heading font-semibold">Érvényesség</th>
+                    <th className="px-5 py-4 font-heading font-semibold">Ár</th>
+                    <th className="px-5 py-4 font-heading font-semibold">Gyakoriság</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {PRICING.map((row, i) => (
-                    <tr key={row.name} className={i % 2 === 1 ? "bg-paper-2" : "bg-paper"}>
-                      <td className="px-5 py-4 font-medium text-paper-fg">{row.name}</td>
-                      <td className="px-5 py-4 text-muted-light">{formatHuf(row.adult)}</td>
-                      <td className="px-5 py-4 text-muted-light">
-                        {row.student ? formatHuf(row.student) : "—"}
-                      </td>
-                      <td className="px-5 py-4 text-muted-light">{row.validity}</td>
+                  {MEMBERSHIP_PLANS.map((plan, i) => (
+                    <tr key={plan.name} className={i % 2 === 1 ? "bg-paper-2" : "bg-paper"}>
+                      <td className="px-5 py-4 font-medium text-paper-fg">{plan.name}</td>
+                      <td className="px-5 py-4 text-muted-light">{formatHuf(plan.priceHuf)}</td>
+                      <td className="px-5 py-4 text-muted-light">{plan.cadenceLabel}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -90,9 +87,10 @@ export default function PricingPage() {
             </div>
 
             <p className="mt-8 max-w-2xl text-sm text-muted-light">
-              A <strong className="text-paper-fg">diák kedvezmény</strong>{" "}
-              érvényes fényképes nappali tagozatos diákigazolvány felmutatásával
-              vehető igénybe, 24 éves korig.
+              A <strong className="text-paper-fg">Havi, Negyedéves és Éves</strong>{" "}
+              bérlet automatikusan megújul a következő időszakra, amíg le nem
+              mondod a dashboardon — a <strong className="text-paper-fg">Alkalmi
+              belépő</strong> egyszeri vásárlás, nem újul meg.
             </p>
 
             <h2 className="mt-16 text-center font-heading text-2xl font-bold text-paper-fg">

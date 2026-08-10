@@ -28,15 +28,6 @@ export const CONTACT = {
   email: "info@forgegym.hu",
 };
 
-export const PRICING = [
-  { name: "1 alkalom", adult: 5000, student: null, validity: "—" },
-  { name: "2 alkalom", adult: 8000, student: 7000, validity: "2 hét" },
-  { name: "10 alkalom", adult: 29500, student: 25000, validity: "7 hét" },
-  { name: "20 alkalom", adult: 45500, student: 39500, validity: "10 hét" },
-  { name: "1 havi bérlet", adult: 31500, student: 26000, validity: "30 nap" },
-  { name: "1 éves bérlet", adult: 315000, student: 260000, validity: "365 nap" },
-];
-
 export const FREE_PERKS = [
   { label: "Finn szauna", icon: "sauna" },
   { label: "Értékmegőrző", icon: "lock" },

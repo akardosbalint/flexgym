@@ -79,18 +79,21 @@ async function main() {
     },
   });
 
-  // Active membership: unlimited monthly pass, started 12 days ago.
+  // Active membership: auto-renewing monthly pass, started 12 days ago.
   await prisma.membership.create({
     data: {
       userId: user.id,
-      name: "1 havi bérlet",
+      name: "Havi bérlet",
       totalEntries: null,
       usedEntries: 9,
       startDate: daysAgo(12),
       endDate: daysFromNow(18),
       status: "ACTIVE",
-      priceHuf: 31500,
+      priceHuf: 11990,
       purchasedAt: daysAgo(12),
+      // No stripeSubscriptionId in seed data (not tied to a real Stripe
+      // subscription) - the dashboard shows it as a one-time membership,
+      // which is the correct fallback when there's nothing to manage.
     },
   });
 
@@ -112,13 +115,13 @@ async function main() {
   await prisma.membership.create({
     data: {
       userId: user.id,
-      name: "1 havi bérlet",
+      name: "Havi bérlet",
       totalEntries: null,
       usedEntries: 21,
       startDate: daysAgo(91),
       endDate: daysAgo(61),
       status: "EXPIRED",
-      priceHuf: 31500,
+      priceHuf: 11990,
       purchasedAt: daysAgo(91),
     },
   });
@@ -127,8 +130,8 @@ async function main() {
     data: [
       {
         userId: user.id,
-        item: "1 havi bérlet",
-        amountHuf: 31500,
+        item: "Havi bérlet",
+        amountHuf: 11990,
         invoiceNo: "FG-2026-3311",
         method: "Bankkártya",
         createdAt: daysAgo(12),
@@ -143,8 +146,8 @@ async function main() {
       },
       {
         userId: user.id,
-        item: "1 havi bérlet",
-        amountHuf: 31500,
+        item: "Havi bérlet",
+        amountHuf: 11990,
         invoiceNo: "FG-2025-9931",
         method: "Utalás",
         createdAt: daysAgo(91),

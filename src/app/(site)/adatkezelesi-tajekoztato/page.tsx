@@ -60,7 +60,9 @@ export default function PrivacyPolicyPage() {
                   <strong>Fizetési adatok:</strong> a bankkártyás fizetést a
                   Weboldal fizetési szolgáltatója (Stripe) bonyolítja le;
                   kártyaadatokat mi magunk nem tárolunk, azokhoz nem is
-                  férünk hozzá.
+                  férünk hozzá. Automatikusan megújuló bérlet (Havi,
+                  Negyedéves, Éves) esetén a Stripe a bérlet lemondásáig a
+                  megadott kártyát a megújuláskor is jogosult megterhelni.
                 </li>
                 <li>
                   <strong>Digitális tárca (Apple/Google Wallet):</strong> ha a

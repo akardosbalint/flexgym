@@ -19,12 +19,19 @@ Built with Next.js (App Router), TypeScript, Tailwind CSS 4, NextAuth
   scan hits `POST /api/admin/checkin`, which looks up the member by their
   `checkInCode`, records a `CheckIn`, and tells the staff member whether
   the membership is currently valid.
-- **Payments** go through Stripe Checkout (test mode). Clicking a plan on
-  `/dashboard/berlet` creates a Checkout Session and redirects to Stripe's
-  hosted payment page (`src/app/dashboard/berlet/actions.ts`). The
-  membership is only activated by the `checkout.session.completed` webhook
-  (`src/app/api/webhooks/stripe/route.ts`) — never optimistically on
-  redirect, since reaching Stripe isn't proof of a completed payment.
+- **Payments** go through Stripe Checkout, using real Stripe Products/Prices
+  (`src/lib/membership-plans.ts`) — not amounts computed on the fly. The
+  **Alkalmi belépő** is a one-time payment (`mode: "payment"`); **Havi**,
+  **Negyedéves** and **Éves** bérlet are real auto-renewing subscriptions
+  (`mode: "subscription"`), billed by Stripe every month/quarter/year until
+  canceled. Clicking a plan on `/dashboard/berlet` creates the right kind of
+  Checkout Session and redirects to Stripe's hosted payment page
+  (`src/app/dashboard/berlet/actions.ts`). The membership is only
+  activated/renewed by webhooks (`src/app/api/webhooks/stripe/route.ts`) —
+  never optimistically on redirect, since reaching Stripe isn't proof of a
+  completed payment. Members manage or cancel an active subscription
+  through the Stripe-hosted Billing Portal (`manageSubscription()` server
+  action) — no custom cancellation UI to build or secure.
 - **Wallets**: the dashboard's QR card also offers "Add to Google Wallet"
   and "Add to Apple Wallet" buttons (`/api/wallet/google`,
   `/api/wallet/apple`) so a member can save their check-in code to their
@@ -80,24 +87,46 @@ Open http://localhost:3000.
 - Demo member login: `demo@forgegym.hu` / `forgegym123`
 - Demo staff login (admin / check-in scanner): `staff@forgegym.hu` / `forgegym123`
 
-### Stripe test mode setup
+### Stripe setup
 
-1. Create a free Stripe account and switch to **test mode**.
-2. Copy the test secret key from https://dashboard.stripe.com/test/apikeys
-   into `STRIPE_SECRET_KEY`.
-3. For local webhook delivery, install the [Stripe CLI](https://docs.stripe.com/stripe-cli)
+The four plans in `src/lib/membership-plans.ts` reference real Stripe Price
+IDs (`price_...` — these aren't secret, they're safe to keep in source,
+unlike the API key). If you ever change the products in Stripe, update the
+`priceId`/`priceHuf`/`kind` fields there to match.
+
+1. Create a Stripe account. Test mode is free and fully separate from live
+   mode — use it for all local/staging work.
+2. Copy the secret key from https://dashboard.stripe.com/test/apikeys into
+   `STRIPE_SECRET_KEY`.
+3. In the Stripe dashboard, turn on the **Customer Portal** (Settings →
+   Billing → Customer portal → Activate) — required for the "Előfizetés
+   kezelése" (manage subscription) button, which redirects members to a
+   Stripe-hosted page to cancel/resume or update their card.
+4. For local webhook delivery, install the [Stripe CLI](https://docs.stripe.com/stripe-cli)
    and run:
    ```bash
    stripe listen --forward-to localhost:3000/api/webhooks/stripe
    ```
-   It prints a `whsec_...` value — put that in `STRIPE_WEBHOOK_SECRET`.
-4. Buy a plan on `/dashboard/berlet` and pay with a
+   It prints a `whsec_...` value — put that in `STRIPE_WEBHOOK_SECRET`. The
+   CLI forwards **all** event types while running, which is enough locally.
+5. Buy a plan on `/dashboard/berlet` and pay with a
    [Stripe test card](https://docs.stripe.com/testing) (e.g.
-   `4242 4242 4242 4242`, any future expiry, any CVC). The membership
-   activates once the webhook fires.
+   `4242 4242 4242 4242`, any future expiry, any CVC). One-time (Alkalmi) or
+   the first payment of a subscription both activate the membership once
+   the `checkout.session.completed` webhook fires.
+6. To see a renewal locally without waiting a real month/quarter/year, use
+   the Stripe CLI or dashboard to advance a test clock, or trigger
+   `stripe trigger invoice.paid` against a subscribed test customer.
 
 Without `STRIPE_SECRET_KEY` set, the rest of the site still works — only
-starting a checkout fails, gracefully, with an on-page error message.
+starting a checkout (or opening the billing portal) fails, gracefully,
+with an on-page error message.
+
+**Once deployed**, the webhook endpoint in the Stripe dashboard (Developers
+→ Webhooks) needs these event types selected — the CLI's `stripe listen`
+forwards everything, but a real endpoint only receives what you pick:
+`checkout.session.completed`, `invoice.paid`, `customer.subscription.updated`,
+`customer.subscription.deleted`.
 
 ### Google Workspace email setup
 
@@ -213,8 +242,12 @@ pull request; `.github/dependabot.yml` keeps dependencies patched weekly.
    described above.
 3. In the Stripe dashboard, add a webhook endpoint pointing at
    `https://<your-domain>/api/webhooks/stripe` listening for
-   `checkout.session.completed`, and put its signing secret in
-   `STRIPE_WEBHOOK_SECRET`.
+   `checkout.session.completed`, `invoice.paid`,
+   `customer.subscription.updated`, and `customer.subscription.deleted`
+   (needed for subscription renewals/cancellations, not just the initial
+   payment), and put its signing secret in `STRIPE_WEBHOOK_SECRET`. Also
+   activate the Customer Portal (Settings → Billing → Customer portal) so
+   the "Előfizetés kezelése" button works.
 4. Run `npx prisma migrate deploy` against that database once (locally, with
    `DATABASE_URL` pointed at it) to create the tables, then optionally
    `npm run db:seed` for demo data.
@@ -231,8 +264,9 @@ pull request; `.github/dependabot.yml` keeps dependencies patched weekly.
 - `src/lib/auth.ts` / `auth.config.ts` — NextAuth setup (config split so the
   Edge middleware doesn't need to bundle Prisma/bcrypt).
 - `src/lib/qr-checkin.ts` — QR content encode/decode for the check-in code.
-- `src/lib/membership-plans.ts` — shared plan → duration/entries mapping
-  used by both the checkout action and the Stripe webhook.
+- `src/lib/membership-plans.ts` — the 4 plans (name, Stripe Price ID,
+  price, one-time/recurring, duration/entries), the single source of truth
+  used by the pricing pages, the checkout action, and the Stripe webhook.
 - `src/lib/google-wallet.ts` / `src/lib/apple-wallet.ts` — build the
   "Add to Google/Apple Wallet" pass for a member's check-in code.
 - `src/lib/email.ts` — Google Workspace SMTP (Nodemailer) wrapper with a console-log fallback.
@@ -243,9 +277,10 @@ pull request; `.github/dependabot.yml` keeps dependencies patched weekly.
   time via the footer's "Cookie beállítások" link.
 - `src/app/api/account/export`, `src/app/api/account/delete` — GDPR
   data-portability and erasure self-service routes.
-- `prisma/schema.prisma` — data model (`User` incl. `role`/`checkInCode`,
-  `Membership`, `CheckIn` incl. `scannedById`, `Purchase` incl.
-  `stripeSessionId`).
+- `prisma/schema.prisma` — data model (`User` incl. `role`/`checkInCode`/
+  `stripeCustomerId`, `Membership` incl. `stripeSubscriptionId`/
+  `cancelAtPeriodEnd`, `CheckIn` incl. `scannedById`, `Purchase` incl.
+  `stripeSessionId`/`stripeInvoiceId`).
 - `prisma/seed.ts` — demo data seed script (`npm run db:seed`): one member,
   one staff account, membership history, check-ins, purchases.
 

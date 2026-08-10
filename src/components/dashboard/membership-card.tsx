@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Membership } from "@/generated/prisma/client";
 import { getMembershipProgress } from "@/lib/membership-progress";
+import { manageSubscription } from "@/app/dashboard/berlet/actions";
 
 function formatHuf(value: number) {
   return `${value.toLocaleString("hu-HU")} Ft`;
@@ -33,6 +34,7 @@ export function MembershipCard({ membership }: { membership: Membership | null }
   }
 
   const { daysLeft, timeProgress, entriesProgress } = getMembershipProgress(membership);
+  const isSubscription = Boolean(membership.stripeSubscriptionId);
 
   return (
     <div className="rounded-lg border border-paper-border bg-linear-to-br from-paper to-paper-2 p-8">
@@ -44,9 +46,21 @@ export function MembershipCard({ membership }: { membership: Membership | null }
           <h2 className="mt-2 font-heading text-2xl font-bold text-paper-fg">
             {membership.name}
           </h2>
-          <p className="mt-1 text-sm text-muted-light">
-            Érvényes: {formatDate(membership.startDate)} – {formatDate(membership.endDate)}
-          </p>
+          {isSubscription ? (
+            membership.cancelAtPeriodEnd ? (
+              <p className="mt-1 text-sm text-accent">
+                Nem újul meg — {formatDate(membership.endDate)}-ig aktív.
+              </p>
+            ) : (
+              <p className="mt-1 text-sm text-muted-light">
+                Következő megújulás: {formatDate(membership.endDate)}
+              </p>
+            )
+          ) : (
+            <p className="mt-1 text-sm text-muted-light">
+              Érvényes: {formatDate(membership.startDate)} – {formatDate(membership.endDate)}
+            </p>
+          )}
         </div>
         <span className="rounded-full bg-accent/15 px-3 py-1 text-xs font-semibold tracking-wide text-accent uppercase">
           {daysLeft} nap van hátra
@@ -96,9 +110,20 @@ export function MembershipCard({ membership }: { membership: Membership | null }
 
       <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-paper-border pt-5 text-sm">
         <span className="text-muted-light">Ár: {formatHuf(membership.priceHuf)}</span>
-        <Link href="/dashboard/berlet" className="font-semibold text-accent underline underline-offset-2 hover:no-underline">
-          Bérlet megújítása →
-        </Link>
+        {isSubscription ? (
+          <form action={manageSubscription}>
+            <button
+              type="submit"
+              className="font-semibold text-accent underline underline-offset-2 hover:no-underline"
+            >
+              Előfizetés kezelése →
+            </button>
+          </form>
+        ) : (
+          <Link href="/dashboard/berlet" className="font-semibold text-accent underline underline-offset-2 hover:no-underline">
+            Bérlet vásárlása →
+          </Link>
+        )}
       </div>
     </div>
   );

@@ -58,34 +58,54 @@ export default function TermsPage() {
 
             <Section title="4. Vásárlás és fizetés">
               <p>
-                A bérlet online vagy helyszíni megvásárlásával a felhasználó
-                és a Forge Gym között szerződés jön létre. A fizetés a
-                Weboldalon feltüntetett módokon (bankkártya, a fizetési
-                szolgáltató — Stripe — hosztolt fizetési oldalán) történik;
-                Szép Kártyával jelenleg nem lehet fizetni. Az árak forintban,
-                bruttó (áfával növelt) összegben szerepelnek, rejtett
-                költség nélkül. A bankkártyás fizetéseknél az erős
+                A bérlet megvásárlásával a felhasználó és a Forge Gym között
+                szerződés jön létre. A fizetés a Weboldalon feltüntetett
+                módokon (bankkártya, a fizetési szolgáltató — Stripe —
+                hosztolt fizetési oldalán) történik; Szép Kártyával jelenleg
+                nem lehet fizetni. Az árak forintban, bruttó (áfával növelt)
+                összegben szerepelnek, az „Árak” oldalon feltüntetve,
+                rejtett költség nélkül. A bankkártyás fizetéseknél az erős
                 ügyfél-hitelesítés (PSD2/SCA) követelményeit a fizetési
                 szolgáltató biztosítja.
               </p>
               <p>
-                <strong>A bérletek nem újulnak meg automatikusan.</strong> Egy
-                bérlet vagy alkalom megvásárlása egyszeri fizetés; a
-                lejáratot követően a folytatáshoz újabb vásárlás szükséges a
-                tagsági dashboardon. Rejtett, automatikus továbbszámlázás
-                nincs.
+                <strong>Az „Alkalmi belépő” egyszeri vásárlás</strong> — a
+                fizetés egy alkalommal történik, nem újul meg automatikusan.
+              </p>
+              <p>
+                <strong>A Havi, Negyedéves és Éves bérlet automatikusan
+                megújuló előfizetés.</strong> Ez azt jelenti, hogy a
+                megvásárolt időszak (1 hónap, 3 hónap, illetve 1 év) lejártakor
+                a Weboldal — külön értesítés nélkül — automatikusan újra
+                terheli a megadott bankkártyát a mindenkori, az „Árak” oldalon
+                feltüntetett díjjal, és a bérlet a következő időszakra
+                meghosszabbodik. Ez addig ismétlődik, amíg a felhasználó le
+                nem mondja az előfizetést.
+              </p>
+              <p>
+                Az előfizetés bármikor, indoklás nélkül lemondható a tagsági
+                dashboardon (Bérletem → Előfizetés kezelése), ahol a Stripe
+                biztonságos előfizetés-kezelő felülete nyílik meg. A lemondás
+                a folyó, már kifizetett időszak végéig nem szünteti meg a
+                hozzáférést — csak azt, hogy a következő időszakra újra
+                terhelésre kerüljön a kártya. A folyó időszakra arányos
+                visszatérítés lemondás esetén nem jár.
               </p>
             </Section>
 
             <Section title="5. Elállás, lemondás, visszatérítés">
               <p>
                 Ha a felhasználó fogyasztónak minősül, a bérlet online
-                megvásárlásától számított 14 napon belül indoklás nélkül
-                elállhat a szerződéstől, feltéve, hogy a bérletet ez idő
-                alatt még nem vette igénybe (nem történt beléptetés). Ha a
-                felhasználó a 14 napos határidőn belül igénybe vette a
-                szolgáltatást, az elállási jog a már felhasznált mértékkel
-                arányosan csökken.
+                megvásárlásától (egyszeri vásárlás esetén az „Alkalmi
+                belépőnél”, előfizetés esetén az első terheléstől) számított
+                14 napon belül indoklás nélkül elállhat a szerződéstől,
+                feltéve, hogy a bérletet ez idő alatt még nem vette igénybe
+                (nem történt beléptetés). Ha a felhasználó a 14 napos
+                határidőn belül igénybe vette a szolgáltatást, az elállási
+                jog a már felhasznált mértékkel arányosan csökken. Az elállási
+                jog kizárólag az adott (első) fizetésre vonatkozik — az
+                előfizetés lemondását a 4. pontban leírt módon, a
+                dashboardon keresztül lehet kezdeményezni.
               </p>
               <p>
                 Elálláshoz, illetve visszatérítési igény esetén a{" "}
