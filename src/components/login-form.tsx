@@ -7,7 +7,7 @@ import { signIn } from "next-auth/react";
 import { ButtonEl } from "@/components/ui/button";
 import { PasswordInput } from "@/components/ui/password-input";
 
-export function LoginForm() {
+export function LoginForm({ defaultRedirect = "/dashboard" }: { defaultRedirect?: string }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
@@ -35,7 +35,7 @@ export function LoginForm() {
       return;
     }
 
-    router.push(searchParams.get("callbackUrl") ?? "/dashboard");
+    router.push(searchParams.get("callbackUrl") ?? defaultRedirect);
     router.refresh();
   }
 

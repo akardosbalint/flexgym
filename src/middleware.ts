@@ -6,7 +6,8 @@ const { auth } = NextAuth(authConfig);
 
 export default auth((req) => {
   if (!req.auth) {
-    const signInUrl = new URL("/bejelentkezes", req.nextUrl.origin);
+    const isAdminPath = req.nextUrl.pathname.startsWith("/admin");
+    const signInUrl = new URL(isAdminPath ? "/beleptetes" : "/bejelentkezes", req.nextUrl.origin);
     signInUrl.searchParams.set("callbackUrl", req.nextUrl.pathname);
     return NextResponse.redirect(signInUrl);
   }

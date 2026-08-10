@@ -60,7 +60,7 @@ export default function HomePage() {
               <Button href="/bejelentkezes" variant="primary" size="lg">
                 Belépés
               </Button>
-              <Button href="/admin" variant="outline-light" size="lg">
+              <Button href="/beleptetes" variant="outline-light" size="lg">
                 Beléptetés
               </Button>
             </div>
