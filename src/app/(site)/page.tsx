@@ -57,11 +57,11 @@ export default function HomePage() {
               dashboardodon.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <Button href="/regisztracio" variant="primary" size="lg">
-                Csatlakozz még ma
+              <Button href="/bejelentkezes" variant="primary" size="lg">
+                Belépés
               </Button>
-              <Button href="/arak" variant="outline-light" size="lg">
-                Bérletek megtekintése
+              <Button href="/admin" variant="outline-light" size="lg">
+                Beléptetés
               </Button>
             </div>
             <RatingBadge className="mt-8" />
