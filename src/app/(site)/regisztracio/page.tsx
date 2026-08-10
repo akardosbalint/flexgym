@@ -18,7 +18,8 @@ export default function RegisterPage() {
             Regisztráció
           </h1>
           <p className="mt-1 text-sm text-muted-light">
-            Hozz létre fiókot, és kövesd a bérletedet a dashboardon.
+            Hozz létre fiókot pár másodperc alatt, és irányítsd a bérletedet
+            egy helyről.
           </p>
 
           <div className="mt-6">

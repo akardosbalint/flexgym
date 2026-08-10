@@ -25,7 +25,7 @@ const bodyFont = Inter({
 });
 
 const SITE_DESCRIPTION =
-  "Forge Gym Budapest - kovácsold magad, válj legendává! Testépítés, kardió és küzdősport egy helyen, saját QR-kódos beléptető rendszerrel.";
+  "Forge Gym Budapest — kovácsold magad legendává! Testépítés, kardió és küzdősport egy helyen, 1974 óta. Bérlet vásárlása online, belépés QR-kóddal.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),

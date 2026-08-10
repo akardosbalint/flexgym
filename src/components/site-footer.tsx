@@ -16,8 +16,8 @@ export function SiteFooter() {
           </p>
           <div className="mt-3 h-1 w-14 bg-accent" />
           <p className="mt-4 max-w-xs text-sm text-muted-dark">
-            Kovácsold magad, válj legendává! Testépítés, kardió és
-            küzdősport egy helyen, a Váci úton.
+            Kovácsold magad legendává! Testépítés, kardió és küzdősport
+            egy helyen, a Váci úton — 1974 óta.
           </p>
           <ul className="mt-6 space-y-2 text-sm text-muted-dark">
             <li>{CONTACT.address}</li>

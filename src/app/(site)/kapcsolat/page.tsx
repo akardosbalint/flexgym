@@ -13,7 +13,11 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      <PageHero eyebrow="Elérhetőségeink" title="KAPCSOLAT" />
+      <PageHero
+        eyebrow="Elérhetőségeink"
+        title="KAPCSOLAT"
+        description="Kérdésed van, vagy szeretnél betérni hozzánk? Írj, hívj, vagy nézz be személyesen a Váci útra."
+      />
 
       <div className="bg-ink py-16">
         <Container>

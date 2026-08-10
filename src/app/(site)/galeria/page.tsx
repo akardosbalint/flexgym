@@ -26,7 +26,7 @@ export default function GalleryPage() {
         eyebrow="Nézz körül"
         title="GALÉRIA"
         highlight="RIA"
-        description="Fotók hamarosan érkeznek a teremről. Addig is itt egy előzetes a tereinkről — a végleges galéria valódi felvételekkel töltődik majd fel."
+        description="Valódi fotók hamarosan érkeznek! Addig is itt egy előzetes a tereinkről — a végleges galéria élő felvételekkel töltődik fel."
       />
 
       <div className="bg-ink py-16">

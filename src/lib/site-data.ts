@@ -19,7 +19,7 @@ export const OPENING_HOURS = [
 export const BRAND = {
   name: "Forge Gym",
   short: "Forge",
-  tagline: "Ahol az erő formát ölt.",
+  tagline: "Kovácsold magad legendává.",
 };
 
 export const CONTACT = {

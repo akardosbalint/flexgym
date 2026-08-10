@@ -8,7 +8,8 @@ import { MEMBERSHIP_PLANS } from "@/lib/membership-plans";
 
 export const metadata: Metadata = {
   title: "Árak",
-  description: "Forge Gym bérletek és árak Budapesten — alkalmi belépőtől az éves bérletig.",
+  description:
+    "Forge Gym bérletek és árak Budapesten: alkalmi belépőtől az éves bérletig, rejtett költségek nélkül. Fizess bankkártyával, lépj be QR-kóddal.",
 };
 
 function formatHuf(value: number) {
@@ -53,7 +54,7 @@ export default function PricingPage() {
         eyebrow="Bérletek"
         title="ÁRAK"
         highlight="AK"
-        description="Válaszd ki a hozzád illő bérletet — a vásárlás bankkártyával, a beléptetés a saját QR-kódos rendszerünkkel zajlik, a felhasználásod pedig a saját dashboardodon követhető."
+        description="Válaszd ki a hozzád illő bérletet, és fizess biztonságosan bankkártyával. A belépésed saját QR-kódos rendszerünkkel zajlik, a felhasználásod pedig mindig nyomon követhető a dashboardodon."
       />
 
       <div className="bg-ink py-16">
@@ -82,7 +83,7 @@ export default function PricingPage() {
 
             <div className="mt-8 flex flex-wrap gap-3">
               <Button href="/regisztracio" variant="primary" size="lg">
-                Online bérletvásárlás
+                Csatlakozz és válassz bérletet
               </Button>
             </div>
 
@@ -94,7 +95,7 @@ export default function PricingPage() {
             </p>
 
             <h2 className="mt-16 text-center font-heading text-2xl font-bold text-paper-fg">
-              Ingyenesen szolgáltatásaink
+              Ingyenes szolgáltatásaink
             </h2>
             <div className="mt-8 grid grid-cols-2 gap-6 sm:grid-cols-4">
               {FREE_PERKS.map((perk) => (
@@ -115,8 +116,8 @@ export default function PricingPage() {
                 <li>Az árak forintban értendők, az áfát tartalmazzák.</li>
                 <li>Szép kártyával nem lehet fizetni.</li>
                 <li>
-                  Az órák, személyi, kiscsoportos edzések a terembelépőn felül
-                  külön díj ellenében vehetők igénybe.
+                  A csoportos órák és a személyi edzés a terembelépőn felül
+                  külön díjasak.
                 </li>
               </ul>
             </div>

@@ -43,18 +43,17 @@ export default function HomePage() {
             <p className="font-heading text-sm font-semibold tracking-widest text-accent-on-dark uppercase">
               Forge Gym Budapest
             </p>
-            <h1 className="mt-3 font-display text-6xl leading-[0.92] tracking-wide text-white uppercase [text-wrap:balance] sm:text-7xl">
-              Kovácsold magad,
+            <h1 className="mt-3 font-display text-6xl leading-[1.1] tracking-wide text-white uppercase sm:text-7xl">
+              Kovácsold magad
               <br />
-              válj{" "}
-              <span className="bg-accent px-2 shadow-[0_0_60px_-8px_rgba(224,18,31,0.75)]">
-                legendává!
+              <span className="inline-block bg-accent px-2 shadow-[0_0_60px_-8px_rgba(224,18,31,0.75)]">
+                legendává
               </span>
             </h1>
             <p className="mt-6 max-w-lg text-lg text-muted-dark">
-              A Váci úti csarnokban négy évtizede formálódnak a legjobb
-              formák. Csatlakozz, és kövesd a fejlődésed a saját tagsági
-              dashboardodon.
+              Évtizedek óta itt formálódnak Budapest legerősebb testei, a
+              Váci úti csarnokban. Kövesd a fejlődésed a saját dashboardodon,
+              és lépj be egyetlen QR-kóddal — kártya és sorban állás nélkül.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <Button href="/bejelentkezes" variant="primary" size="lg">
@@ -72,23 +71,23 @@ export default function HomePage() {
               <p className="font-display text-4xl text-accent">
                 <Counter value={1974} />
               </p>
-              <p className="mt-1 text-sm text-muted-light">óta a budai edzők otthona</p>
+              <p className="mt-1 text-sm text-muted-light">óta formáljuk a legjobb alakokat</p>
             </Reveal>
             <Reveal className="rounded-lg border border-paper-border bg-paper p-6" delay={0.08}>
               <p className="font-display text-4xl text-accent">
                 <Counter value={2000} suffix="+" />
               </p>
-              <p className="mt-1 text-sm text-muted-light">aktív tag</p>
+              <p className="mt-1 text-sm text-muted-light">aktív tag bízik bennünk</p>
             </Reveal>
             <Reveal className="rounded-lg border border-paper-border bg-paper p-6" delay={0.16}>
               <p className="font-display text-4xl text-accent">
                 <Counter value={40} suffix="+" />
               </p>
-              <p className="mt-1 text-sm text-muted-light">gépes állomás</p>
+              <p className="mt-1 text-sm text-muted-light">gépes állomás vár rád</p>
             </Reveal>
             <Reveal className="rounded-lg border border-paper-border bg-paper p-6" delay={0.24}>
               <p className="font-display text-4xl text-accent">06–22</p>
-              <p className="mt-1 text-sm text-muted-light">nyitva minden hétköznap</p>
+              <p className="mt-1 text-sm text-muted-light">nyitva hétköznaponta</p>
             </Reveal>
           </div>
         </Container>

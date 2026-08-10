@@ -7,7 +7,8 @@ import { TrainersGrid } from "@/components/trainers-grid";
 
 export const metadata: Metadata = {
   title: "Edzőink",
-  description: "Ismerd meg a Forge Gym erőnléti, küzdősport és masszázs szakembereit, és találd meg a hozzád illő edzőt.",
+  description:
+    "Ismerd meg a Forge Gym budapesti erőnléti, küzdősport és masszázs szakembereit — válaszd ki a hozzád illő edzőt, és fejlődj gyorsabban.",
 };
 
 export default function TrainersPage() {

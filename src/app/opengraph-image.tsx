@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Forge Gym Budapest — kovácsold magad, válj legendává!";
+export const alt = "Forge Gym Budapest — kovácsold magad legendává!";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -48,7 +48,7 @@ export default function Image() {
           </div>
         </div>
         <div style={{ display: "flex", marginTop: 28, fontSize: 32, color: "#a3a3ab" }}>
-          Ahol az erő formát ölt. — Budapest
+          Kovácsold magad legendává. — Budapest
         </div>
       </div>
     ),
