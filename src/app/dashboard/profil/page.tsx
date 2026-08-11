@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { AccountDangerZone } from "@/components/dashboard/account-danger-zone";
@@ -21,7 +22,33 @@ export default async function ProfilePage() {
       </div>
 
       <div className="rounded-lg border border-paper-border bg-paper p-6">
-        <dl className="divide-y divide-paper-border text-sm">
+        <div className="flex items-center gap-4">
+          {user.profilePhotoUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element -- small data: URI, no need for next/image optimization
+            <img
+              src={user.profilePhotoUrl}
+              alt="Profilképed"
+              className="h-16 w-16 shrink-0 rounded-full border border-paper-border object-cover"
+            />
+          ) : (
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-paper-border bg-ink/5 text-xs text-muted-light">
+              Nincs kép
+            </div>
+          )}
+          <div>
+            <p className="text-sm text-muted-light">
+              Ezt a fotót látja a recepciós munkatárs beléptetéskor.
+            </p>
+            <Link
+              href="/profilkep-keszites"
+              className="mt-1 inline-block text-sm font-medium text-accent underline underline-offset-2 hover:no-underline"
+            >
+              Profilkép frissítése →
+            </Link>
+          </div>
+        </div>
+
+        <dl className="mt-6 divide-y divide-paper-border border-t border-paper-border text-sm">
           <div className="flex justify-between py-3">
             <dt className="text-muted-light">Név</dt>
             <dd className="font-medium text-paper-fg">{user.name}</dd>

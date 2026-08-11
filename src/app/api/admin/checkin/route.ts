@@ -3,6 +3,7 @@ import { z } from "zod";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { qrContentToCheckInCode } from "@/lib/qr-checkin";
+import { budapestDateKey } from "@/lib/checkin-code";
 
 const schema = z.object({
   code: z.string().trim().min(1, "Hiányzó kód."),
@@ -32,11 +33,24 @@ export async function POST(request: Request) {
 
   const member = await prisma.user.findUnique({
     where: { checkInCode },
-    select: { id: true, name: true, role: true },
+    select: { id: true, name: true, role: true, checkInCodeDate: true, profilePhotoUrl: true },
   });
 
   if (!member || member.role !== "MEMBER") {
     return NextResponse.json({ error: "Ismeretlen belépőkód." }, { status: 404 });
+  }
+
+  // The code rotates once per Europe/Budapest day (see getActiveCheckInCode)
+  // but only when the member's dashboard is next opened - so a code from a
+  // previous day can still sit unrotated in the DB. Reject it here too,
+  // rather than relying solely on that lazy rotation, so a
+  // screenshotted/forwarded QR code stops working after local midnight even
+  // if the owner hasn't reopened the app yet today.
+  if (budapestDateKey(member.checkInCodeDate) !== budapestDateKey()) {
+    return NextResponse.json(
+      { error: "Lejárt QR-kód. Kérd meg a tagot, hogy nyissa meg újra az alkalmazást, és próbáljátok újra." },
+      { status: 410 },
+    );
   }
 
   const now = new Date();
@@ -58,7 +72,7 @@ export async function POST(request: Request) {
 
   return NextResponse.json({
     ok: true,
-    member: { name: member.name },
+    member: { name: member.name, profilePhotoUrl: member.profilePhotoUrl },
     checkedInAt: now.toISOString(),
     membership: activeMembership
       ? {

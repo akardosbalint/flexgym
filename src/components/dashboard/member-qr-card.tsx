@@ -38,6 +38,10 @@ export async function MemberQrCard({
       <p className="mt-2 max-w-[220px] text-xs text-muted-light">
         Mutasd ezt a recepción belépéskor — a munkatárs beolvassa a kamerával.
       </p>
+      <p className="mt-1 max-w-[220px] text-xs text-muted-light">
+        Ez a kód minden nap megújul, ezért ne oszd meg mással — a lementett
+        vagy továbbküldött kép másnaptól nem lesz érvényes.
+      </p>
 
       <div className="mt-4 w-full">
         <QrSaveButton qrDataUrl={dataUrl} memberName={memberName} memberEmail={memberEmail} siteHost={siteHost} />
