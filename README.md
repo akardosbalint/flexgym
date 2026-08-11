@@ -40,13 +40,13 @@ Built with Next.js (App Router), TypeScript, Tailwind CSS 4, NextAuth
   working after local midnight even if the owner hasn't reopened the app.
   There's deliberately no "save QR as photo" download button anymore, since
   a saved image would go stale within a day.
-- **Mandatory live profile photo**: every member must capture a selfie with
-  their own device's camera (`src/components/profile-photo-capture.tsx`, no
-  file-upload fallback) before they can use any `/dashboard` page — enforced
-  centrally in `src/app/dashboard/layout.tsx`, which redirects to
-  `/profilkep-keszites` until `profilePhotoUrl` is set. Staff see that photo
-  on a successful scan in `/admin`, to visually confirm the person matches
-  the account.
+- **Optional live profile photo**: a member can capture a selfie with their
+  own device's camera at `/profilkep-keszites`
+  (`src/components/profile-photo-capture.tsx`, no file-upload fallback —
+  camera only) and link it to their account, e.g. from the "Profilkép
+  frissítése" link on `/dashboard/profil`. The dashboard and QR code work
+  fine without one. Staff see the photo on a successful scan in `/admin`, to
+  visually confirm the person matches the account, when it's set.
 - **Email** (password reset links, contact form submissions) sends through a
   Google Workspace mailbox via SMTP if `GOOGLE_WORKSPACE_EMAIL` /
   `GOOGLE_WORKSPACE_APP_PASSWORD` are set (`src/lib/email.ts`); otherwise it
@@ -249,8 +249,8 @@ pull request; `.github/dependabot.yml` keeps dependencies patched weekly.
 - `src/lib/membership-plans.ts` — the 4 plans (name, Stripe Price ID,
   price, one-time/recurring, duration/entries), the single source of truth
   used by the pricing pages, the checkout action, and the Stripe webhook.
-- `src/app/profilkep-keszites/*` — mandatory live selfie capture flow a
-  member is redirected to until they have a profile photo.
+- `src/app/profilkep-keszites/*` — optional live selfie capture flow, linked
+  to from `/dashboard/profil`.
 - `src/components/profile-photo-capture.tsx` — camera-only photo capture
   (Canvas API, client-side), used by the page above.
 - `src/lib/email.ts` — Google Workspace SMTP (Nodemailer) wrapper with a console-log fallback.
