@@ -31,11 +31,9 @@ model User {
   /// date is compared against today's to decide whether to rotate the code
   /// and, at check-in time, whether a scanned code is stale.
   checkInCodeDate  DateTime @default(now())
-  /// Required live selfie (data URL), captured with the member's own device
-  /// camera during onboarding - shown to staff at check-in to confirm the
-  /// person scanning the QR code is its owner. Null only for accounts
-  /// created before this field existed, until they complete the mandatory
-  /// capture step.
+  /// Optional live selfie (data URL), captured with the member's own device
+  /// camera at /profilkep-keszites - shown to staff at check-in, when set,
+  /// to help confirm the person scanning the QR code is its owner.
   profilePhotoUrl  String?
   createdAt        DateTime @default(now())
   /// Reused across checkouts/subscriptions so renewals, invoices, and the

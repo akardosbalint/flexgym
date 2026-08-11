@@ -26,10 +26,9 @@ export default async function ProfilePhotoPage() {
           Profilkép készítése
         </h1>
         <p className="mt-2 text-sm text-muted-dark">
-          Minden tagnak kötelező egy élő, a saját eszközével készített fotót
-          adnia — ezt látja a recepciós munkatárs beléptetéskor, hogy
-          megbizonyosodjon róla, hogy a QR-kóddal tényleg a tag lép be.
-          Feltöltés helyett a kamerával kell elkészítened.
+          Ezt a fotót látja majd a recepciós munkatárs beléptetéskor, hogy
+          könnyebben megbizonyosodjon róla, hogy a QR-kóddal tényleg te lépsz
+          be. Feltöltés helyett élőben, a kamerával kell elkészítened.
         </p>
       </div>
 
