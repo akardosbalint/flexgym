@@ -202,12 +202,23 @@ pull request; `.github/dependabot.yml` keeps dependencies patched weekly.
 
 1. Create a Postgres database (Vercel Postgres, Neon, Supabase, ...) and copy
    its connection string.
+   - **If the provider fronts `DATABASE_URL` with a connection pooler**
+     (e.g. Supabase's pooled string, port 6543/PgBouncer), also copy the
+     **direct**, non-pooled connection string (Supabase: Project Settings →
+     Database → Connection string → "Direct connection", port 5432) into
+     `DIRECT_URL`. Migrations need a direct connection to take their
+     advisory lock — run through a pooler in transaction mode, `prisma
+     migrate deploy` hangs indefinitely instead of failing fast. Leave
+     `DIRECT_URL` unset for providers with no pooler in front of
+     `DATABASE_URL`.
 2. In the Vercel project, set the environment variables from `.env.example`:
-   `DATABASE_URL`, `AUTH_SECRET` (generate with `npx auth secret`),
-   `AUTH_TRUSTED_HOST=true`, `NEXT_PUBLIC_SITE_URL` (the real domain, for
-   the sitemap/canonical/OG tags), `STRIPE_SECRET_KEY`, and optionally
-   `GOOGLE_WORKSPACE_EMAIL` / `GOOGLE_WORKSPACE_APP_PASSWORD` and
-   `NEXT_PUBLIC_GA_MEASUREMENT_ID`.
+   `DATABASE_URL` (and `DIRECT_URL` if applicable, see above), `AUTH_SECRET`
+   (generate with `npx auth secret`), `AUTH_TRUSTED_HOST=true`,
+   `NEXT_PUBLIC_SITE_URL` (the real domain, for the sitemap/canonical/OG
+   tags), `STRIPE_SECRET_KEY`, and optionally `GOOGLE_WORKSPACE_EMAIL` /
+   `GOOGLE_WORKSPACE_APP_PASSWORD` and `NEXT_PUBLIC_GA_MEASUREMENT_ID`. Make
+   sure these are available at **build time**, not just runtime — the build
+   applies pending migrations (see step 4).
 3. In the Stripe dashboard, add a webhook endpoint pointing at
    `https://<your-domain>/api/webhooks/stripe` listening for
    `checkout.session.completed`, `invoice.paid`,
@@ -216,11 +227,12 @@ pull request; `.github/dependabot.yml` keeps dependencies patched weekly.
    payment), and put its signing secret in `STRIPE_WEBHOOK_SECRET`. Also
    activate the Customer Portal (Settings → Billing → Customer portal) so
    the "Előfizetés kezelése" button works.
-4. Run `npx prisma migrate deploy` against that database once (locally, with
-   `DATABASE_URL` pointed at it) to create the tables, then optionally
-   `npm run db:seed` for demo data.
-5. Deploy. `npm install` triggers `prisma generate` automatically via the
-   `postinstall` script.
+4. Deploy. `npm install` triggers `prisma generate` automatically via the
+   `postinstall` script, and `npm run build` runs `prisma migrate deploy`
+   before `next build` — so tables and later schema changes are created/
+   applied automatically on every deploy; no manual migration step needed.
+   Optionally run `npm run db:seed` (locally, with `DATABASE_URL` pointed at
+   the new database) for demo data.
 
 ## Project structure
 
