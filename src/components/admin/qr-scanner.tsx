@@ -7,6 +7,7 @@ import { ButtonEl } from "@/components/ui/button";
 type ScanResult = {
   ok: boolean;
   memberName?: string;
+  memberPhotoUrl?: string | null;
   message: string;
   membershipValid?: boolean;
   membershipLabel?: string;
@@ -61,6 +62,7 @@ export function QrScanner({ initialRecent }: { initialRecent: RecentCheckIn[] })
         setResult({
           ok: true,
           memberName: body.member.name,
+          memberPhotoUrl: body.member.profilePhotoUrl ?? null,
           message: `${body.member.name} sikeresen beléptetve.`,
           membershipValid: body.membership.valid,
           membershipLabel: body.membership.valid
@@ -169,10 +171,25 @@ export function QrScanner({ initialRecent }: { initialRecent: RecentCheckIn[] })
 
           {result && (
             <div
-              className={`absolute inset-0 flex flex-col items-center justify-center gap-2 p-6 text-center ${
+              className={`absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center ${
                 result.ok ? "bg-paper/95" : "bg-accent/95"
               }`}
             >
+              {result.ok && (
+                // eslint-disable-next-line @next/next/no-img-element -- small data: URI, no need for next/image optimization
+                <img
+                  src={result.memberPhotoUrl ?? undefined}
+                  alt={result.memberPhotoUrl ? `${result.memberName} profilképe` : undefined}
+                  className={`h-24 w-24 rounded-full border-2 border-paper-border object-cover ${
+                    result.memberPhotoUrl ? "" : "hidden"
+                  }`}
+                />
+              )}
+              {result.ok && !result.memberPhotoUrl && (
+                <p className="text-xs font-semibold tracking-wide text-accent uppercase">
+                  Nincs profilkép a taghoz
+                </p>
+              )}
               <p className={`font-heading text-xl font-bold ${result.ok ? "text-paper-fg" : "text-white"}`}>
                 {result.message}
               </p>

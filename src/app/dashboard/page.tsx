@@ -34,11 +34,7 @@ export default async function DashboardOverviewPage() {
       </div>
 
       <div className="grid gap-4 lg:grid-cols-[280px_1fr]">
-        <MemberQrCard
-          checkInCode={checkInCode}
-          memberName={session!.user.name ?? "Tag"}
-          memberEmail={session!.user.email ?? ""}
-        />
+        <MemberQrCard checkInCode={checkInCode} />
         <MembershipCard membership={activeMembership} />
       </div>
 

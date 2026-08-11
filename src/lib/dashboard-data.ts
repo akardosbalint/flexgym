@@ -1,15 +1,13 @@
 import "server-only";
 import { prisma } from "@/lib/prisma";
+import { getActiveCheckInCode } from "@/lib/checkin-code";
 
 const DAY = 24 * 60 * 60 * 1000;
 const WEEK = 7 * DAY;
 
 export async function getDashboardData(userId: string) {
-  const [user, memberships, checkIns, purchases] = await Promise.all([
-    prisma.user.findUniqueOrThrow({
-      where: { id: userId },
-      select: { checkInCode: true },
-    }),
+  const [checkInCode, memberships, checkIns, purchases] = await Promise.all([
+    getActiveCheckInCode(userId),
     prisma.membership.findMany({
       where: { userId },
       orderBy: { startDate: "desc" },
@@ -54,7 +52,7 @@ export async function getDashboardData(userId: string) {
   });
 
   return {
-    checkInCode: user.checkInCode,
+    checkInCode,
     memberships,
     activeMembership,
     checkIns,

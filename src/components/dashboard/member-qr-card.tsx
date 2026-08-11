@@ -1,23 +1,12 @@
 import QRCode from "qrcode";
 import { checkInCodeToQrContent, formatCheckInCode } from "@/lib/qr-checkin";
-import { getSiteUrl } from "@/lib/site-url";
-import { QrSaveButton } from "@/components/dashboard/qr-save-button";
 
-export async function MemberQrCard({
-  checkInCode,
-  memberName,
-  memberEmail,
-}: {
-  checkInCode: string;
-  memberName: string;
-  memberEmail: string;
-}) {
+export async function MemberQrCard({ checkInCode }: { checkInCode: string }) {
   const dataUrl = await QRCode.toDataURL(checkInCodeToQrContent(checkInCode), {
     margin: 1,
     width: 320,
     color: { dark: "#18181b", light: "#ffffff" },
   });
-  const siteHost = new URL(getSiteUrl()).host;
 
   return (
     <div className="flex flex-col items-center rounded-lg border border-paper-border bg-paper p-6 text-center">
@@ -38,10 +27,10 @@ export async function MemberQrCard({
       <p className="mt-2 max-w-[220px] text-xs text-muted-light">
         Mutasd ezt a recepción belépéskor — a munkatárs beolvassa a kamerával.
       </p>
-
-      <div className="mt-4 w-full">
-        <QrSaveButton qrDataUrl={dataUrl} memberName={memberName} memberEmail={memberEmail} siteHost={siteHost} />
-      </div>
+      <p className="mt-1 max-w-[220px] text-xs text-muted-light">
+        Ez a kód minden nap megújul, ezért ne oszd meg mással — a lementett
+        vagy továbbküldött kép másnaptól nem lesz érvényes.
+      </p>
     </div>
   );
 }

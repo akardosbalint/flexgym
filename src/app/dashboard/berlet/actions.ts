@@ -60,6 +60,7 @@ export async function startCheckout(formData: FormData) {
       payment_method_types: ["card"],
       line_items: [{ price: plan.priceId, quantity: 1 }],
       customer: customerId,
+      allow_promotion_codes: true,
       metadata: { userId: session.user.id, planName: plan.name },
       subscription_data:
         plan.kind === "recurring"

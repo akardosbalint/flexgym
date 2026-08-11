@@ -23,8 +23,20 @@ model User {
   passwordHash     String
   phone            String?
   role             UserRole @default(MEMBER)
-  /// Opaque token encoded in the member's personal check-in QR code.
+  /// Opaque token encoded in the member's personal check-in QR code. Rotated
+  /// once per Europe/Budapest calendar day (see checkInCodeDate) so a
+  /// screenshotted/forwarded QR code stops working the next day.
   checkInCode      String   @unique
+  /// Timestamp checkInCode was last minted at - its Europe/Budapest calendar
+  /// date is compared against today's to decide whether to rotate the code
+  /// and, at check-in time, whether a scanned code is stale.
+  checkInCodeDate  DateTime @default(now())
+  /// Required live selfie (data URL), captured with the member's own device
+  /// camera during onboarding - shown to staff at check-in to confirm the
+  /// person scanning the QR code is its owner. Null only for accounts
+  /// created before this field existed, until they complete the mandatory
+  /// capture step.
+  profilePhotoUrl  String?
   createdAt        DateTime @default(now())
   /// Reused across checkouts/subscriptions so renewals, invoices, and the
   /// Stripe Billing Portal all see one customer history.

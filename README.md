@@ -32,11 +32,21 @@ Built with Next.js (App Router), TypeScript, Tailwind CSS 4, NextAuth
   completed payment. Members manage or cancel an active subscription
   through the Stripe-hosted Billing Portal (`manageSubscription()` server
   action) — no custom cancellation UI to build or secure.
-- **QR code save-as-photo**: the dashboard's QR card has a "QR kód
-  lementése fotóként" button that composes a JPEG client-side (Canvas API,
-  `src/components/dashboard/qr-save-button.tsx`) with the site domain, the
-  member's name/email, and the QR code, and downloads it — no server
-  round-trip needed.
+- **Daily-rotating check-in code**: a member's `checkInCode` is re-minted
+  once per Europe/Budapest calendar day — lazily, the next time their
+  dashboard renders (`getActiveCheckInCode` in `src/lib/checkin-code.ts`) —
+  and `POST /api/admin/checkin` independently rejects a scan whose stored
+  code predates today, so a screenshotted or forwarded QR code stops
+  working after local midnight even if the owner hasn't reopened the app.
+  There's deliberately no "save QR as photo" download button anymore, since
+  a saved image would go stale within a day.
+- **Mandatory live profile photo**: every member must capture a selfie with
+  their own device's camera (`src/components/profile-photo-capture.tsx`, no
+  file-upload fallback) before they can use any `/dashboard` page — enforced
+  centrally in `src/app/dashboard/layout.tsx`, which redirects to
+  `/profilkep-keszites` until `profilePhotoUrl` is set. Staff see that photo
+  on a successful scan in `/admin`, to visually confirm the person matches
+  the account.
 - **Email** (password reset links, contact form submissions) sends through a
   Google Workspace mailbox via SMTP if `GOOGLE_WORKSPACE_EMAIL` /
   `GOOGLE_WORKSPACE_APP_PASSWORD` are set (`src/lib/email.ts`); otherwise it
@@ -192,12 +202,23 @@ pull request; `.github/dependabot.yml` keeps dependencies patched weekly.
 
 1. Create a Postgres database (Vercel Postgres, Neon, Supabase, ...) and copy
    its connection string.
+   - **If the provider fronts `DATABASE_URL` with a connection pooler**
+     (e.g. Supabase's pooled string, port 6543/PgBouncer), also copy the
+     **direct**, non-pooled connection string (Supabase: Project Settings →
+     Database → Connection string → "Direct connection", port 5432) into
+     `DIRECT_URL`. Migrations need a direct connection to take their
+     advisory lock — run through a pooler in transaction mode, `prisma
+     migrate deploy` hangs indefinitely instead of failing fast. Leave
+     `DIRECT_URL` unset for providers with no pooler in front of
+     `DATABASE_URL`.
 2. In the Vercel project, set the environment variables from `.env.example`:
-   `DATABASE_URL`, `AUTH_SECRET` (generate with `npx auth secret`),
-   `AUTH_TRUSTED_HOST=true`, `NEXT_PUBLIC_SITE_URL` (the real domain, for
-   the sitemap/canonical/OG tags), `STRIPE_SECRET_KEY`, and optionally
-   `GOOGLE_WORKSPACE_EMAIL` / `GOOGLE_WORKSPACE_APP_PASSWORD` and
-   `NEXT_PUBLIC_GA_MEASUREMENT_ID`.
+   `DATABASE_URL` (and `DIRECT_URL` if applicable, see above), `AUTH_SECRET`
+   (generate with `npx auth secret`), `AUTH_TRUSTED_HOST=true`,
+   `NEXT_PUBLIC_SITE_URL` (the real domain, for the sitemap/canonical/OG
+   tags), `STRIPE_SECRET_KEY`, and optionally `GOOGLE_WORKSPACE_EMAIL` /
+   `GOOGLE_WORKSPACE_APP_PASSWORD` and `NEXT_PUBLIC_GA_MEASUREMENT_ID`. Make
+   sure these are available at **build time**, not just runtime — the build
+   applies pending migrations (see step 4).
 3. In the Stripe dashboard, add a webhook endpoint pointing at
    `https://<your-domain>/api/webhooks/stripe` listening for
    `checkout.session.completed`, `invoice.paid`,
@@ -206,11 +227,12 @@ pull request; `.github/dependabot.yml` keeps dependencies patched weekly.
    payment), and put its signing secret in `STRIPE_WEBHOOK_SECRET`. Also
    activate the Customer Portal (Settings → Billing → Customer portal) so
    the "Előfizetés kezelése" button works.
-4. Run `npx prisma migrate deploy` against that database once (locally, with
-   `DATABASE_URL` pointed at it) to create the tables, then optionally
-   `npm run db:seed` for demo data.
-5. Deploy. `npm install` triggers `prisma generate` automatically via the
-   `postinstall` script.
+4. Deploy. `npm install` triggers `prisma generate` automatically via the
+   `postinstall` script, and `npm run build` runs `prisma migrate deploy`
+   before `next build` — so tables and later schema changes are created/
+   applied automatically on every deploy; no manual migration step needed.
+   Optionally run `npm run db:seed` (locally, with `DATABASE_URL` pointed at
+   the new database) for demo data.
 
 ## Project structure
 
@@ -222,11 +244,15 @@ pull request; `.github/dependabot.yml` keeps dependencies patched weekly.
 - `src/lib/auth.ts` / `auth.config.ts` — NextAuth setup (config split so the
   Edge middleware doesn't need to bundle Prisma/bcrypt).
 - `src/lib/qr-checkin.ts` — QR content encode/decode for the check-in code.
+- `src/lib/checkin-code.ts` — generates check-in codes and rotates them
+  daily (`getActiveCheckInCode`, `budapestDateKey`).
 - `src/lib/membership-plans.ts` — the 4 plans (name, Stripe Price ID,
   price, one-time/recurring, duration/entries), the single source of truth
   used by the pricing pages, the checkout action, and the Stripe webhook.
-- `src/components/dashboard/qr-save-button.tsx` — composes and downloads
-  the QR-code-as-JPEG (Canvas API, client-side).
+- `src/app/profilkep-keszites/*` — mandatory live selfie capture flow a
+  member is redirected to until they have a profile photo.
+- `src/components/profile-photo-capture.tsx` — camera-only photo capture
+  (Canvas API, client-side), used by the page above.
 - `src/lib/email.ts` — Google Workspace SMTP (Nodemailer) wrapper with a console-log fallback.
 - `src/lib/rate-limit.ts` — in-memory rate limiter used by the auth/contact/
   account-deletion routes.
